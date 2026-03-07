@@ -5,8 +5,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/YOUR-USERNAME/netsec-academy/pulls)
 [![Open Source](https://img.shields.io/badge/Open%20Source-%E2%9D%A4-red)](https://github.com/YOUR-USERNAME/netsec-academy)
-[![Stars](https://img.shields.io/github/stars/YOUR-USERNAME/netsec-academy?style=social)]https://github.com/sid-3110/NetSec-Academy--Networking-for-Cybersecurity
----
+[![Stars](https://img.shields.io/github/stars/YOUR-USERNAME/netsec-academy?style=social)
+
 
 ## 🎯 What is This?
 
