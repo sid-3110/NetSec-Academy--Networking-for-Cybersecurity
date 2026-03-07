@@ -1,0 +1,2699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NetSec Academy — Networking for Cybersecurity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   NETSEC ACADEMY — NETWORKING FOR CYBERSECURITY
+   Design: Dark terminal aesthetic with electric blue + acid green
+   ============================================================ */
+:root {
+  --bg:       #080b0f;
+  --bg1:      #0c1018;
+  --bg2:      #111722;
+  --bg3:      #171e2d;
+  --bg4:      #1c2438;
+  --border:   #1e2d45;
+  --border2:  #243454;
+  --cyan:     #00e5ff;
+  --green:    #39ff14;
+  --amber:    #ffb300;
+  --red:      #ff3d5a;
+  --purple:   #b388ff;
+  --text:     #dce8f5;
+  --text2:    #7a99b8;
+  --text3:    #3e5a78;
+  --font-mono: 'Space Mono', monospace;
+  --font-body: 'DM Sans', sans-serif;
+  --font-display: 'Bebas Neue', cursive;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 15px; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--cyan); }
+
+/* ===== SCANLINE OVERLAY ===== */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,229,255,0.012) 2px,
+    rgba(0,229,255,0.012) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ===== HEADER ===== */
+#header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  height: 56px;
+  background: rgba(8,11,15,0.96);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  text-decoration: none;
+}
+.logo-icon {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, var(--cyan), #0066ff);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .8rem;
+  flex-shrink: 0;
+  box-shadow: 0 0 16px rgba(0,229,255,.3);
+}
+.logo-text {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  letter-spacing: .06em;
+  color: var(--text);
+}
+.logo-text span { color: var(--cyan); }
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: .1rem;
+}
+.header-nav a {
+  color: var(--text2);
+  text-decoration: none;
+  font-size: .78rem;
+  font-weight: 500;
+  padding: .32rem .7rem;
+  border-radius: 5px;
+  transition: all .18s;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.header-nav a:hover { color: var(--text); background: var(--bg3); }
+.header-nav a.active { color: var(--cyan); background: rgba(0,229,255,.08); }
+
+/* ===== LAYOUT ===== */
+.app-shell {
+  display: grid;
+  grid-template-columns: 258px 1fr;
+  min-height: 100vh;
+  padding-top: 56px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  position: sticky;
+  top: 56px;
+  height: calc(100vh - 56px);
+  overflow-y: auto;
+  background: var(--bg1);
+  border-right: 1px solid var(--border);
+  padding: 1rem 0 3rem;
+}
+.sidebar::-webkit-scrollbar { width: 3px; }
+
+.sb-group-label {
+  font-family: var(--font-mono);
+  font-size: .6rem;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--text3);
+  padding: .75rem 1.2rem .3rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.sb-group-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.sb-link {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  padding: .38rem 1.2rem;
+  font-size: .8rem;
+  color: var(--text2);
+  text-decoration: none;
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: all .15s;
+  line-height: 1.3;
+}
+.sb-link:hover { color: var(--text); background: rgba(255,255,255,.03); }
+.sb-link.active { color: var(--cyan); border-left-color: var(--cyan); background: rgba(0,229,255,.05); }
+
+.sb-num {
+  font-family: var(--font-mono);
+  font-size: .62rem;
+  color: var(--text3);
+  min-width: 20px;
+  flex-shrink: 0;
+}
+.sb-link.active .sb-num { color: var(--cyan); }
+
+.sb-badge {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: .56rem;
+  padding: .08rem .3rem;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.badge-net { background: rgba(0,229,255,.12); color: var(--cyan); }
+.badge-res { background: rgba(57,255,20,.1); color: var(--green); }
+
+/* ===== CONTENT AREA ===== */
+.content {
+  padding: 2.5rem 3rem 4rem;
+  min-width: 0;
+  max-width: 860px;
+}
+
+/* ===== SECTIONS ===== */
+.page { display: none; }
+.page.active { display: block; animation: fadeSlide .28s ease; }
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== MODULE TABS (within a section) ===== */
+.mod-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .3rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.mod-tab {
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  padding: .28rem .65rem;
+  border-radius: 4px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--text2);
+  cursor: pointer;
+  transition: all .18s;
+}
+.mod-tab:hover { border-color: var(--cyan); color: var(--cyan); }
+.mod-tab.active { background: rgba(0,229,255,.1); border-color: var(--cyan); color: var(--cyan); }
+
+.module { display: none; }
+.module.active { display: block; animation: fadeSlide .28s ease; }
+
+/* ===== MODULE HEADER ===== */
+.mod-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid var(--border);
+}
+.mod-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  margin-bottom: .7rem;
+}
+.tag {
+  font-family: var(--font-mono);
+  font-size: .63rem;
+  padding: .15rem .55rem;
+  border-radius: 3px;
+  letter-spacing: .04em;
+}
+.tag-net  { background: rgba(0,229,255,.1);  color: var(--cyan);   border: 1px solid rgba(0,229,255,.2); }
+.tag-beg  { background: rgba(57,255,20,.08); color: var(--green);  border: 1px solid rgba(57,255,20,.2); }
+.tag-int  { background: rgba(255,179,0,.08); color: var(--amber);  border: 1px solid rgba(255,179,0,.2); }
+.tag-att  { background: rgba(255,61,90,.08); color: var(--red);    border: 1px solid rgba(255,61,90,.2); }
+.tag-def  { background: rgba(179,136,255,.08); color: var(--purple); border: 1px solid rgba(179,136,255,.2); }
+
+.mod-title {
+  font-family: var(--font-display);
+  font-size: 2.1rem;
+  letter-spacing: .04em;
+  line-height: 1.1;
+  margin-bottom: .55rem;
+  color: var(--text);
+}
+.mod-sub { color: var(--text2); font-size: .93rem; max-width: 580px; }
+
+/* ===== HEADINGS ===== */
+.h2 {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  letter-spacing: .04em;
+  color: var(--text);
+  margin: 2rem 0 .7rem;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+}
+.h2::before {
+  content: '';
+  width: 3px;
+  height: 1.1em;
+  background: var(--cyan);
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(0,229,255,.4);
+}
+
+.h3 {
+  font-family: var(--font-body);
+  font-size: .95rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 1.4rem 0 .4rem;
+}
+
+p { color: var(--text2); margin-bottom: .75rem; font-size: .92rem; }
+p strong { color: var(--text); font-weight: 600; }
+
+/* ===== BOXES ===== */
+.box {
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin: 1.1rem 0;
+}
+.box .box-label {
+  font-family: var(--font-mono);
+  font-size: .62rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  margin-bottom: .4rem;
+}
+
+.box-def   { background: var(--bg3); border: 1px solid var(--border2); border-left: 3px solid var(--cyan); }
+.box-def .box-label { color: var(--cyan); }
+
+.box-ex    { background: rgba(255,179,0,.04); border: 1px solid rgba(255,179,0,.18); border-left: 3px solid var(--amber); }
+.box-ex .box-label  { color: var(--amber); }
+
+.box-tip   { background: rgba(57,255,20,.04); border: 1px solid rgba(57,255,20,.15); border-left: 3px solid var(--green); }
+.box-tip .box-label { color: var(--green); }
+
+.box-warn  { background: rgba(255,61,90,.04); border: 1px solid rgba(255,61,90,.18); border-left: 3px solid var(--red); }
+.box-warn .box-label { color: var(--red); }
+
+.box-sec   { background: rgba(179,136,255,.04); border: 1px solid rgba(179,136,255,.18); border-left: 3px solid var(--purple); }
+.box-sec .box-label { color: var(--purple); }
+
+/* ===== DIAGRAM ===== */
+.diagram {
+  background: #060910;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.4rem 1.6rem;
+  margin: 1.3rem 0;
+  overflow-x: auto;
+  position: relative;
+}
+.diagram::before {
+  content: 'DIAGRAM';
+  position: absolute;
+  top: .6rem;
+  right: .8rem;
+  font-family: var(--font-mono);
+  font-size: .55rem;
+  color: var(--text3);
+  letter-spacing: .1em;
+}
+.diagram pre {
+  font-family: var(--font-mono);
+  font-size: .79rem;
+  line-height: 1.65;
+  color: var(--text2);
+  white-space: pre;
+}
+.cy  { color: var(--cyan); }
+.gn  { color: var(--green); }
+.am  { color: var(--amber); }
+.rd  { color: var(--red); }
+.pu  { color: var(--purple); }
+.wh  { color: var(--text); }
+.dk  { color: var(--text3); }
+
+/* ===== CODE BLOCK ===== */
+.code-block {
+  background: #050810;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 1.1rem 0;
+}
+.code-hdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .5rem 1rem;
+  background: var(--bg3);
+  border-bottom: 1px solid var(--border);
+}
+.code-dots { display: flex; gap: 5px; }
+.cd { width: 10px; height: 10px; border-radius: 50%; }
+.cd-r { background: #ff5f56; }
+.cd-y { background: #ffbd2e; }
+.cd-g { background: #27c93f; }
+.code-lang { font-family: var(--font-mono); font-size: .65rem; color: var(--text3); letter-spacing: .06em; }
+.code-block code {
+  display: block;
+  padding: 1rem 1.2rem;
+  font-family: var(--font-mono);
+  font-size: .79rem;
+  line-height: 1.75;
+  color: var(--text);
+  overflow-x: auto;
+}
+.code-block .c-cmd  { color: var(--cyan); }
+.code-block .c-str  { color: #a8ff78; }
+.code-block .c-cmt  { color: var(--text3); font-style: italic; }
+.code-block .c-out  { color: var(--amber); }
+.code-block .c-path { color: var(--purple); }
+.code-block .c-flag { color: var(--amber); }
+.code-block .c-kw   { color: var(--red); }
+
+/* ===== CARDS ===== */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+  gap: .65rem;
+  margin: 1.1rem 0;
+}
+.card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  transition: all .2s;
+  cursor: default;
+}
+.card:hover { border-color: var(--border2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.3); }
+.card-ico { font-size: 1.4rem; margin-bottom: .45rem; }
+.card h4 { font-family: var(--font-body); font-size: .85rem; font-weight: 600; color: var(--text); margin-bottom: .3rem; }
+.card p   { font-size: .77rem; color: var(--text2); margin: 0; line-height: 1.5; }
+
+/* ===== TABLE ===== */
+.table-wrap { border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; margin: 1.1rem 0; }
+table { width: 100%; border-collapse: collapse; font-size: .83rem; }
+thead { background: var(--bg3); }
+th { padding: .62rem .9rem; text-align: left; font-family: var(--font-mono); font-size: .63rem; text-transform: uppercase; letter-spacing: .06em; color: var(--text3); border-bottom: 1px solid var(--border); white-space: nowrap; }
+td { padding: .62rem .9rem; border-bottom: 1px solid rgba(30,45,69,.6); color: var(--text2); vertical-align: top; }
+td:first-child { color: var(--text); font-weight: 500; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(0,229,255,.02); }
+
+/* ===== OSI TABLE ===== */
+.osi-stack { display: flex; flex-direction: column; gap: 4px; margin: 1.2rem 0; }
+.osi-row {
+  display: grid;
+  grid-template-columns: 36px 120px 1fr 130px;
+  gap: .8rem;
+  padding: .6rem .9rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  align-items: center;
+  font-size: .81rem;
+  transition: all .15s;
+}
+.osi-row:hover { border-color: var(--border2); }
+.osi-num { font-family: var(--font-mono); font-size: .8rem; font-weight: 700; text-align: center; }
+.osi-name { font-weight: 600; color: var(--text); }
+.osi-desc { color: var(--text2); font-size: .78rem; }
+.osi-ex { font-family: var(--font-mono); font-size: .68rem; color: var(--text3); }
+.l7 .osi-num { color: var(--cyan); }
+.l6 .osi-num { color: #00e5aa; }
+.l5 .osi-num { color: var(--green); }
+.l4 .osi-num { color: var(--purple); }
+.l3 .osi-num { color: var(--amber); }
+.l2 .osi-num { color: #ff9100; }
+.l1 .osi-num { color: var(--red); }
+
+/* ===== STEPS ===== */
+.step-flow { display: flex; flex-direction: column; margin: 1.3rem 0; }
+.step-item { display: flex; gap: .9rem; }
+.step-left { display: flex; flex-direction: column; align-items: center; min-width: 30px; }
+.step-circle {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: rgba(0,229,255,.1);
+  border: 2px solid var(--cyan);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  font-weight: 700;
+  color: var(--cyan);
+  flex-shrink: 0;
+  box-shadow: 0 0 10px rgba(0,229,255,.2);
+}
+.step-connector { flex: 1; width: 2px; background: var(--border); margin: 3px 0; min-height: 16px; }
+.step-body { flex: 1; padding-bottom: 1.4rem; }
+.step-body h4 { font-size: .9rem; font-weight: 600; color: var(--text); margin-bottom: .25rem; }
+.step-body p  { font-size: .83rem; margin: 0; }
+
+/* ===== PORT PILLS ===== */
+.port-pill {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  padding: .12rem .45rem;
+  border-radius: 3px;
+  font-weight: 700;
+}
+.pp-http  { background: rgba(0,229,255,.1);  color: var(--cyan); }
+.pp-ssh   { background: rgba(57,255,20,.1);  color: var(--green); }
+.pp-dns   { background: rgba(255,61,90,.1);  color: var(--red); }
+.pp-smb   { background: rgba(255,179,0,.1);  color: var(--amber); }
+.pp-db    { background: rgba(179,136,255,.1); color: var(--purple); }
+
+/* ===== FLOW ANIMATION ===== */
+.flow-wrap {
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+  flex-wrap: wrap;
+  margin: 1.2rem 0;
+  padding: 1rem 1.2rem;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.flow-node {
+  background: var(--bg4);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  padding: .4rem .8rem;
+  font-family: var(--font-mono);
+  font-size: .74rem;
+  color: var(--text);
+  text-align: center;
+  min-width: 80px;
+}
+.flow-arrow { color: var(--cyan); font-size: 1.1rem; flex-shrink: 0; }
+.flow-node.highlight { border-color: var(--cyan); color: var(--cyan); box-shadow: 0 0 10px rgba(0,229,255,.15); }
+.flow-node.warn-node { border-color: var(--red); color: var(--red); }
+.flow-node.ok-node   { border-color: var(--green); color: var(--green); }
+
+/* ===== ATTACK BADGE ===== */
+.attack-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: .6rem;
+  margin: 1.1rem 0;
+}
+.attack-card {
+  background: rgba(255,61,90,.04);
+  border: 1px solid rgba(255,61,90,.2);
+  border-radius: 8px;
+  padding: .9rem 1rem;
+  transition: all .2s;
+}
+.attack-card:hover { border-color: var(--red); box-shadow: 0 4px 16px rgba(255,61,90,.1); }
+.attack-card .ac-icon { font-size: 1.3rem; margin-bottom: .35rem; }
+.attack-card h4 { font-size: .83rem; font-weight: 600; color: var(--red); margin-bottom: .25rem; }
+.attack-card p  { font-size: .77rem; color: var(--text2); margin: 0; line-height: 1.5; }
+
+/* ===== VIDEO SECTION ===== */
+.yt-section { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+.yt-header {
+  display: flex; align-items: center; gap: .6rem;
+  font-family: var(--font-body); font-size: .95rem; font-weight: 600;
+  margin-bottom: 1rem; color: var(--text);
+}
+.yt-badge {
+  background: #ff0000;
+  color: #fff;
+  width: 24px; height: 24px;
+  border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .65rem;
+  flex-shrink: 0;
+}
+.yt-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: .65rem; }
+.yt-card {
+  display: block;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: .9rem 1rem;
+  text-decoration: none;
+  transition: all .2s;
+}
+.yt-card:hover { border-color: #ff3333; transform: translateY(-2px); background: rgba(255,0,0,.04); }
+.yt-channel { font-family: var(--font-mono); font-size: .6rem; color: #ff6b6b; margin-bottom: .25rem; text-transform: uppercase; letter-spacing: .04em; }
+.yt-title   { font-size: .82rem; font-weight: 600; color: var(--text); margin-bottom: .25rem; line-height: 1.3; }
+.yt-desc    { font-size: .74rem; color: var(--text3); line-height: 1.4; }
+
+/* ===== DIVIDER ===== */
+.divider { height: 1px; background: var(--border); margin: 1.8rem 0; }
+
+/* ===== README PAGE ===== */
+.readme-card {
+  background: #010409;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 1.2rem 0;
+}
+.readme-topbar {
+  background: var(--bg3);
+  padding: .65rem 1.1rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  font-family: var(--font-mono);
+  font-size: .73rem;
+  color: var(--text2);
+}
+.readme-body {
+  padding: 1.5rem 1.7rem;
+  font-family: var(--font-mono);
+  font-size: .78rem;
+  line-height: 1.9;
+  color: var(--text2);
+  white-space: pre-wrap;
+}
+.rm1 { color: var(--cyan);  font-size: 1rem; font-weight: 700; }
+.rm2 { color: var(--green); font-weight: 700; }
+.rm3 { color: var(--amber); font-weight: 600; }
+.rm-link { color: #58a6ff; }
+.rm-dim  { color: var(--text3); }
+.rm-badge-wrap { display: flex; flex-wrap: wrap; gap: .3rem; margin: .4rem 0; }
+
+/* ===== LINKEDIN POST ===== */
+.li-card {
+  background: #1b2838;
+  border: 1px solid #2a3a50;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 1.2rem 0;
+}
+.li-topbar {
+  background: #0a66c2;
+  padding: .7rem 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  font-weight: 700;
+  font-size: .88rem;
+  color: white;
+}
+.li-body {
+  padding: 1.5rem;
+  font-size: .87rem;
+  line-height: 1.85;
+  color: #c8d6e5;
+  white-space: pre-wrap;
+}
+.li-b { color: #fff; font-weight: 700; }
+.li-h { color: #71a9f7; font-weight: 600; }
+.li-em { color: var(--amber); }
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--text2);
+  padding: .4rem .85rem;
+  border-radius: 5px;
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  cursor: pointer;
+  transition: all .2s;
+  margin: .5rem 1.5rem 1.2rem;
+}
+.copy-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+
+/* ===== HOME PAGE ===== */
+.hero {
+  padding: 3rem 0 2rem;
+  max-width: 760px;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  background: rgba(0,229,255,.07);
+  border: 1px solid rgba(0,229,255,.18);
+  border-radius: 20px;
+  padding: .28rem .9rem;
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  color: var(--cyan);
+  margin-bottom: 1.3rem;
+  letter-spacing: .04em;
+}
+.pulse-dot {
+  width: 7px; height: 7px;
+  background: var(--cyan);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+  box-shadow: 0 0 6px var(--cyan);
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.4)} }
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 4.2rem);
+  letter-spacing: .04em;
+  line-height: 1.08;
+  margin-bottom: 1.1rem;
+}
+.hero h1 .line-accent { color: var(--cyan); display: block; text-shadow: 0 0 40px rgba(0,229,255,.25); }
+.hero h1 .line-accent2 { color: var(--green); display: block; }
+
+.hero-desc {
+  font-size: 1rem;
+  color: var(--text2);
+  max-width: 520px;
+  margin-bottom: 2rem;
+  line-height: 1.75;
+}
+.hero-btns { display: flex; gap: .8rem; flex-wrap: wrap; margin-bottom: 3rem; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .65rem 1.4rem;
+  border-radius: 7px;
+  font-size: .88rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  font-family: var(--font-body);
+  transition: all .2s;
+  text-decoration: none;
+}
+.btn-primary {
+  background: var(--cyan);
+  color: #000;
+}
+.btn-primary:hover { background: #00cfee; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,229,255,.25); }
+.btn-secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border2);
+}
+.btn-secondary:hover { border-color: var(--cyan); color: var(--cyan); }
+
+.home-stats {
+  display: flex;
+  gap: 3rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  letter-spacing: .04em;
+  color: var(--cyan);
+  display: block;
+  line-height: 1;
+}
+.stat-label { font-size: .75rem; color: var(--text3); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .06em; margin-top: .2rem; }
+
+.roadmap { margin: 1.5rem 0; }
+.rm-step {
+  display: flex;
+  gap: 1rem;
+  cursor: pointer;
+  transition: all .2s;
+}
+.rm-step:hover .rm-card { border-color: var(--border2); }
+.rm-icon-col { display: flex; flex-direction: column; align-items: center; min-width: 42px; }
+.rm-icon {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.rm-line { flex: 1; width: 2px; background: linear-gradient(to bottom, var(--border2), var(--border)); margin: 4px 0; min-height: 24px; }
+.rm-card {
+  flex: 1;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: .85rem 1rem;
+  margin-bottom: 1rem;
+  transition: all .2s;
+}
+.rm-card h4 { font-size: .88rem; font-weight: 600; color: var(--text); margin-bottom: .2rem; }
+.rm-card p  { font-size: .78rem; color: var(--text3); margin: 0; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .app-shell { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .content { padding: 1.5rem 1.2rem; }
+  .osi-row { grid-template-columns: 30px 90px 1fr; }
+  .osi-ex { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ====== HEADER ====== -->
+<header id="header">
+  <div class="logo">
+    <div class="logo-icon">⚡</div>
+    <span class="logo-text">Net<span>Sec</span> Academy</span>
+  </div>
+  <nav class="header-nav">
+    <a onclick="switchPage('home')" id="nav-home" class="active">Home</a>
+    <a onclick="switchPage('networking')" id="nav-networking">Networking</a>
+  </nav>
+</header>
+
+<!-- ====== APP SHELL ====== -->
+<div class="app-shell">
+
+<!-- ====== SIDEBAR ====== -->
+<nav class="sidebar">
+  <div class="sb-group-label">Networking Modules</div>
+  <div class="sb-link" onclick="switchPage('networking');switchMod('m1')" id="sb-m1"><span class="sb-num">01</span>Introduction to Networking<span class="sb-badge badge-net">NET</span></div>
+  <div class="sb-link" onclick="switchPage('networking');switchMod('m2')" id="sb-m2"><span class="sb-num">02</span>How the Internet Works<span class="sb-badge badge-net">NET</span></div>
+  <div class="sb-link" onclick="switchPage('networking');switchMod('m3')" id="sb-m3"><span class="sb-num">03</span>IP Addressing<span class="sb-badge badge-net">NET</span></div>
+  <div class="sb-link" onclick="switchPage('networking');switchMod('m4')" id="sb-m4"><span class="sb-num">04</span>Ports &amp; Protocols<span class="sb-badge badge-net">NET</span></div>
+  <div class="sb-link" onclick="switchPage('networking');switchMod('m5')" id="sb-m5"><span class="sb-num">05</span>OSI Model<span class="sb-badge badge-net">NET</span></div>
+  <div class="sb-link" onclick="switchPage('networking');switchMod('m6')" id="sb-m6"><span class="sb-num">06</span>TCP/IP Model<span class="sb-badge badge-net">NET</span></div>
+  <div class="sb-link" onclick="switchPage('networking');switchMod('m7')" id="sb-m7"><span class="sb-num">07</span>TCP vs UDP Deep Dive<span class="sb-badge badge-net">NET</span></div>
+  <div class="sb-link" onclick="switchPage('networking');switchMod('m8')" id="sb-m8"><span class="sb-num">08</span>DNS Deep Dive<span class="sb-badge badge-net">NET</span></div>
+  <div class="sb-link" onclick="switchPage('networking');switchMod('m9')" id="sb-m9"><span class="sb-num">09</span>Network Communication Flow<span class="sb-badge badge-net">NET</span></div>
+  <div class="sb-link" onclick="switchPage('networking');switchMod('m10')" id="sb-m10"><span class="sb-num">10</span>Packet Fundamentals<span class="sb-badge badge-net">NET</span></div>
+  <div class="sb-link" onclick="switchPage('networking');switchMod('m11')" id="sb-m11"><span class="sb-num">11</span>Traffic Analysis<span class="sb-badge badge-net">NET</span></div>
+  <div class="sb-link" onclick="switchPage('networking');switchMod('m12')" id="sb-m12"><span class="sb-num">12</span>Network Architecture<span class="sb-badge badge-net">NET</span></div>
+  <div class="sb-link" onclick="switchPage('networking');switchMod('m13')" id="sb-m13"><span class="sb-num">13</span>NAT &amp; Routing<span class="sb-badge badge-net">NET</span></div>
+  <div class="sb-link" onclick="switchPage('networking');switchMod('m14')" id="sb-m14"><span class="sb-num">14</span>Firewalls &amp; Network Security<span class="sb-badge badge-net">NET</span></div>
+  <div class="sb-link" onclick="switchPage('networking');switchMod('m15')" id="sb-m15"><span class="sb-num">15</span>Network Monitoring &amp; Logging<span class="sb-badge badge-net">NET</span></div>
+  <div class="sb-link" onclick="switchPage('networking');switchMod('m16')" id="sb-m16"><span class="sb-num">16</span>Network Attacks Overview<span class="sb-badge badge-net">NET</span></div>
+</nav>
+
+<!-- ====== CONTENT ====== -->
+<main class="content">
+<!-- ======================================================
+     HOME PAGE
+====================================================== -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="hero-badge"><div class="pulse-dot"></div>FREE · OPEN SOURCE · BEGINNER TO PRO</div>
+    <h1>
+      NETWORKING<br>
+      <span class="line-accent">FOR CYBER</span>
+      <span class="line-accent2">SECURITY</span>
+    </h1>
+    <p class="hero-desc">The most complete, beginner-friendly networking curriculum built specifically for cybersecurity students. 16 structured modules, visual diagrams, real-world examples, and curated video resources — all in one place.</p>
+    <div class="hero-btns">
+      <button class="btn btn-primary" onclick="switchPage('networking');switchMod('m1')">Start Learning →</button>
+      <button class="btn btn-secondary" onclick="switchPage('networking');switchMod('m16')">Jump to Attacks</button>
+    </div>
+    <div class="home-stats">
+      <div><span class="stat-num">16</span><div class="stat-label">Modules</div></div>
+      <div><span class="stat-num">50+</span><div class="stat-label">Diagrams</div></div>
+      <div><span class="stat-num">48+</span><div class="stat-label">Video Links</div></div>
+      <div><span class="stat-num">100%</span><div class="stat-label">Free & Open</div></div>
+    </div>
+
+    <div class="h2">Your Learning Path</div>
+    <div class="roadmap">
+      <div class="rm-step" onclick="switchPage('networking');switchMod('m1')">
+        <div class="rm-icon-col"><div class="rm-icon" style="background:rgba(0,229,255,.1)">🌐</div><div class="rm-line"></div></div>
+        <div class="rm-card"><h4>Phase 1 — Internet Basics (M1–M2)</h4><p>What networks are, how devices communicate, how the internet works end-to-end.</p></div>
+      </div>
+      <div class="rm-step" onclick="switchPage('networking');switchMod('m3')">
+        <div class="rm-icon-col"><div class="rm-icon" style="background:rgba(57,255,20,.1)">🔢</div><div class="rm-line"></div></div>
+        <div class="rm-card"><h4>Phase 2 — Addressing &amp; Protocols (M3–M4)</h4><p>IP addresses, subnetting, ports, and the protocols that power every application.</p></div>
+      </div>
+      <div class="rm-step" onclick="switchPage('networking');switchMod('m5')">
+        <div class="rm-icon-col"><div class="rm-icon" style="background:rgba(179,136,255,.1)">📐</div><div class="rm-line"></div></div>
+        <div class="rm-card"><h4>Phase 3 — Models &amp; Packet Flow (M5–M10)</h4><p>OSI model, TCP/IP stack, TCP vs UDP, DNS resolution, and packet structure.</p></div>
+      </div>
+      <div class="rm-step" onclick="switchPage('networking');switchMod('m11')">
+        <div class="rm-icon-col"><div class="rm-icon" style="background:rgba(255,179,0,.1)">🔍</div><div class="rm-line"></div></div>
+        <div class="rm-card"><h4>Phase 4 — Architecture &amp; Defense (M11–M15)</h4><p>Traffic analysis, network topologies, NAT, firewalls, and network monitoring.</p></div>
+      </div>
+      <div class="rm-step" onclick="switchPage('networking');switchMod('m16')">
+        <div class="rm-icon-col"><div class="rm-icon" style="background:rgba(255,61,90,.1)">⚔️</div></div>
+        <div class="rm-card"><h4>Phase 5 — Attack Techniques (M16)</h4><p>Port scanning, MITM, ARP spoofing, DNS poisoning, DDoS — how attackers abuse networking.</p></div>
+      </div>
+    </div>
+
+    <div class="box box-tip">
+      <div class="box-label">💡 Who Is This For?</div>
+      <p style="margin:0">This curriculum is designed for <strong>absolute beginners</strong> with zero prior networking knowledge. It builds from the ground up — concepts are explained with plain English, then backed by technical depth. By the end, you'll have the networking foundation needed for SOC analyst, pentesting, or any cybersecurity role.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================
+     NETWORKING PAGE
+====================================================== -->
+<div id="page-networking" class="page">
+  <!-- Module Tabs -->
+  <div class="mod-tabs">
+    <button class="mod-tab active" onclick="switchMod('m1')">01</button>
+    <button class="mod-tab" onclick="switchMod('m2')">02</button>
+    <button class="mod-tab" onclick="switchMod('m3')">03</button>
+    <button class="mod-tab" onclick="switchMod('m4')">04</button>
+    <button class="mod-tab" onclick="switchMod('m5')">05</button>
+    <button class="mod-tab" onclick="switchMod('m6')">06</button>
+    <button class="mod-tab" onclick="switchMod('m7')">07</button>
+    <button class="mod-tab" onclick="switchMod('m7b')">07b TCP</button>
+    <button class="mod-tab" onclick="switchMod('m8')">08</button>
+    <button class="mod-tab" onclick="switchMod('m9')">09</button>
+    <button class="mod-tab" onclick="switchMod('m10')">10</button>
+    <button class="mod-tab" onclick="switchMod('m11')">11</button>
+    <button class="mod-tab" onclick="switchMod('m12')">12</button>
+    <button class="mod-tab" onclick="switchMod('m13')">13</button>
+    <button class="mod-tab" onclick="switchMod('m14')">14</button>
+    <button class="mod-tab" onclick="switchMod('m15')">15</button>
+    <button class="mod-tab" onclick="switchMod('m16')">16</button>
+  </div>
+
+  <!-- ===== MODULE 1 ===== -->
+  <div id="mod-m1" class="module active">
+    <div class="mod-header">
+      <div class="mod-tags"><span class="tag tag-net">Networking</span><span class="tag tag-beg">Beginner</span></div>
+      <div class="mod-title">01 — INTRODUCTION TO NETWORKING</div>
+      <div class="mod-sub">Understand the fundamental concepts of how devices communicate in a network — the bedrock of all cybersecurity knowledge.</div>
+    </div>
+
+    <div class="box box-def"><div class="box-label">📖 Definition</div>
+      <p>A <strong>network</strong> is a collection of two or more computing devices connected together to share resources, data, and services. Think of it like a postal system — every device has an address, messages (data) are packaged, routed, and delivered.</p>
+    </div>
+
+    <div class="box box-ex"><div class="box-label">💡 Real World Example</div>
+      <p>When you stream YouTube, your laptop (device 1) sends a request to Google's server (device 2) over a network. The video travels through multiple routers across the internet — each one reading your device's "address" and forwarding data closer to you. That entire process is networking.</p>
+    </div>
+
+    <div class="h2">Why Networking Matters in Cybersecurity</div>
+    <p>Every cyberattack travels over a network. SQL injection, phishing, ransomware, DDoS — they all use networking protocols. If you don't understand how data moves, you cannot understand how it's attacked or defended.</p>
+
+    <div class="card-grid">
+      <div class="card"><div class="card-ico">🔴</div><h4>Offensive Security</h4><p>Pentesting requires port scanning, packet sniffing, and exploiting network-level vulnerabilities.</p></div>
+      <div class="card"><div class="card-ico">🔵</div><h4>Defensive Security</h4><p>SOC analysts read network logs, detect anomalies, and trace attack paths through the network.</p></div>
+      <div class="card"><div class="card-ico">🕵️</div><h4>Forensics</h4><p>Incident responders reconstruct attacks from network traffic captures and firewall logs.</p></div>
+      <div class="card"><div class="card-ico">☁️</div><h4>Cloud Security</h4><p>Cloud misconfigurations expose network services — understanding ports and IPs is essential.</p></div>
+    </div>
+
+    <div class="h2">Types of Networks</div>
+
+    <div class="diagram"><pre>
+  <span class="cy">LAN</span> — Local Area Network
+  ┌─────────────────────────────┐
+  │  Your Home / Office Network │
+  │  PC ── Switch ── Router     │
+  │  Phone    Printer  NAS      │
+  └─────────────────────────────┘
+  Range: meters to ~1km | Fast | Private
+
+  <span class="gn">MAN</span> — Metropolitan Area Network
+  ┌────────────────────────────────────────┐
+  │  City-wide — ISP infrastructure        │
+  │  Office A ──── Fiber ──── Office B     │
+  └────────────────────────────────────────┘
+  Range: ~10–100km | Medium speed | Semi-public
+
+  <span class="am">WAN</span> — Wide Area Network
+  ┌──────────────────────────────────────────────────┐
+  │  Country / Global — connects LANs across cities  │
+  │  London Office ── [Internet] ── Mumbai Office    │
+  └──────────────────────────────────────────────────┘
+  Range: Unlimited | Variable speed | The INTERNET is a WAN
+
+  <span class="pu">Internet</span> — Network of Networks
+  Billions of LANs and WANs interconnected globally
+  Governed by open standards (TCP/IP, BGP, DNS)
+</pre></div>
+
+    <div class="h2">Essential Network Devices</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Device</th><th>Function</th><th>Layer (OSI)</th><th>Security Relevance</th></tr></thead>
+      <tbody>
+        <tr><td>🔁 Router</td><td>Routes packets between different networks using IP addresses</td><td>Layer 3 — Network</td><td>Gateway to internet; primary firewall point; target of routing attacks</td></tr>
+        <tr><td>🔀 Switch</td><td>Forwards frames within a LAN using MAC addresses</td><td>Layer 2 — Data Link</td><td>ARP spoofing and MAC flooding attacks target switches</td></tr>
+        <tr><td>🔥 Firewall</td><td>Filters traffic based on rules; blocks unauthorized access</td><td>Layer 3–7</td><td>Core security device — both hardware and software variants</td></tr>
+        <tr><td>📶 Access Point</td><td>Provides wireless (Wi-Fi) access to a wired network</td><td>Layer 1–2</td><td>Evil twin AP, deauthentication, WPA2 cracking attacks</td></tr>
+        <tr><td>📡 Modem</td><td>Modulates/demodulates signals; connects LAN to ISP</td><td>Layer 1 — Physical</td><td>ISP-controlled; default credentials often unchanged</td></tr>
+        <tr><td>🔌 Hub (legacy)</td><td>Broadcasts all traffic to all ports; dumb device</td><td>Layer 1</td><td>Everything visible to all — passive sniffing trivial</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="diagram"><pre>
+  <span class="cy">Typical Enterprise Network Layout</span>
+
+  [Internet]
+      │
+  ┌───▼─────┐
+  │  Modem  │  ← ISP connection
+  └───┬─────┘
+      │
+  ┌───▼──────────┐
+  │   Firewall   │  ← Traffic filtering, NAT
+  └───┬──────────┘
+      │
+  ┌───▼──────────┐         ┌──────────────────┐
+  │    Router    │─────────│   DMZ Network    │
+  └───┬──────────┘         │ (Web/Mail server)│
+      │                    └──────────────────┘
+  ┌───▼──────────┐
+  │    Switch    │  ← LAN distribution
+  └──┬────┬──────┘
+     │    │
+  ┌──▼──┐ ┌▼──────────┐
+  │ PCs │ │ Access Pt │  ← Wi-Fi clients
+  └─────┘ └───────────┘
+  <span class="gn">Security insight:</span> <span class="am">Each device = potential attack surface</span>
+</pre></div>
+
+    <div class="box box-sec"><div class="box-label">🔐 Security Mindset</div>
+      <p>Every device on a network is a potential entry point for an attacker. The golden rule: <strong>minimize attack surface</strong> — disable unused devices, close unused ports, segment your network, and always know what's on your network (asset inventory).</p>
+    </div>
+
+    <div class="yt-section">
+      <div class="yt-header"><div class="yt-badge">▶</div>Recommended Videos — Module 01</div>
+      <div class="yt-grid">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=3QhU9jd03a0" target="_blank"><div class="yt-channel">NetworkChuck</div><div class="yt-title">Computer Networking Full Course for Beginners</div><div class="yt-desc">Best entry-level networking course — practical, visual, and security-aware</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=qiQR5rTSshw" target="_blank"><div class="yt-channel">PowerCert Animated Videos</div><div class="yt-title">Network Devices Explained</div><div class="yt-desc">Animated breakdown of routers, switches, firewalls, access points and modems</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=aEWyZW5NxmI" target="_blank"><div class="yt-channel">Professor Messer</div><div class="yt-title">Network Types — LAN, WAN, MAN</div><div class="yt-desc">CompTIA Network+ level explanation of network types and their differences</div></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODULE 2 ===== -->
+  <div id="mod-m2" class="module">
+    <div class="mod-header">
+      <div class="mod-tags"><span class="tag tag-net">Networking</span><span class="tag tag-beg">Beginner</span></div>
+      <div class="mod-title">02 — HOW THE INTERNET WORKS</div>
+      <div class="mod-sub">Trace the full journey of data from your browser to a web server and back — understanding every step.</div>
+    </div>
+
+    <div class="box box-def"><div class="box-label">📖 Definition</div>
+      <p>The <strong>Internet</strong> is a global system of interconnected computer networks that use the TCP/IP protocol suite to communicate. It's not owned by any single entity — it's a massive, decentralized collection of networks that all agree to speak the same language.</p>
+    </div>
+
+    <div class="h2">The Client–Server Model</div>
+    <div class="box box-ex"><div class="box-label">💡 Analogy — Restaurant</div>
+      <p>You are the <strong>client</strong> (customer). The website's server is the <strong>server</strong> (kitchen). Your browser sends a <strong>request</strong> (order). The server sends back a <strong>response</strong> (food). The network is the waiter carrying messages between you.</p>
+    </div>
+
+    <div class="diagram"><pre>
+  <span class="cy">CLIENT-SERVER MODEL</span>
+
+  ┌──────────────┐     HTTP Request      ┌──────────────────┐
+  │   YOUR       │ ─────────────────────►│   WEB SERVER     │
+  │   BROWSER    │                       │  (google.com)    │
+  │  (Client)    │◄─────────────────────│  192.178.52.1    │
+  └──────────────┘     HTTP Response     └──────────────────┘
+                       (HTML, CSS, JS)
+
+  <span class="gn">Client responsibilities:</span> Send requests, render responses
+  <span class="am">Server responsibilities:</span> Listen for requests, process, respond
+  <span class="pu">Network:</span>               Route packets between them
+</pre></div>
+
+    <div class="h2">What Happens When You Visit a Website</div>
+    <p>This is the complete step-by-step flow — understanding this is essential for both web security and network analysis.</p>
+
+    <div class="step-flow">
+      <div class="step-item">
+        <div class="step-left"><div class="step-circle">1</div><div class="step-connector"></div></div>
+        <div class="step-body"><h4>You type "google.com" and press Enter</h4><p>Your browser needs to find Google's IP address. It can't route to a domain name directly — it needs the numeric IP. It first checks its local cache.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-left"><div class="step-circle">2</div><div class="step-connector"></div></div>
+        <div class="step-body"><h4>DNS Resolution — Domain → IP Address</h4><p>Browser asks a <strong>DNS resolver</strong> (usually your ISP's or 8.8.8.8): "What is the IP for google.com?" The resolver returns <code style="background:var(--bg3);padding:0 4px;border-radius:3px;font-size:.8rem">142.250.80.46</code>. Now your browser knows where to connect.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-left"><div class="step-circle">3</div><div class="step-connector"></div></div>
+        <div class="step-body"><h4>TCP Connection — Three-Way Handshake</h4><p>Your browser connects to port 443 (HTTPS) on Google's server. A TCP handshake happens: SYN → SYN-ACK → ACK. Connection established.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-left"><div class="step-circle">4</div><div class="step-connector"></div></div>
+        <div class="step-body"><h4>TLS Handshake — Encryption Setup</h4><p>For HTTPS, a TLS handshake negotiates encryption. Server sends its certificate. Your browser verifies it's legitimate and sets up an encrypted tunnel.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-left"><div class="step-circle">5</div><div class="step-connector"></div></div>
+        <div class="step-body"><h4>HTTP Request Sent</h4><p>Browser sends: <code style="background:var(--bg3);padding:0 4px;border-radius:3px;font-size:.8rem">GET / HTTP/1.1</code> — requesting the homepage. Headers include your browser type, accepted languages, cookies, etc.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-left"><div class="step-circle">6</div><div class="step-connector"></div></div>
+        <div class="step-body"><h4>Server Processes and Responds</h4><p>Google's server receives the request, generates the response (HTML, CSS, JavaScript, images), and sends it back with status code <code style="background:var(--bg3);padding:0 4px;border-radius:3px;font-size:.8rem">200 OK</code>.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-left"><div class="step-circle">7</div></div>
+        <div class="step-body"><h4>Browser Renders the Page</h4><p>Your browser parses HTML, downloads linked resources (images, scripts), runs JavaScript, and displays the page. The entire process takes milliseconds.</p></div>
+      </div>
+    </div>
+
+    <div class="diagram"><pre>
+  <span class="cy">COMPLETE FLOW: Browser → Google.com</span>
+
+  [Browser]
+     │
+     │ 1. "What's the IP for google.com?"
+     ▼
+  [DNS Resolver] → [Root NS] → [.com TLD NS] → [Google NS]
+     │                                               │
+     │ ← ← ← ← ← ← 142.250.80.46 ← ← ← ← ← ← ← ◄─┘
+     │
+     │ 2. Connect to 142.250.80.46:443 (HTTPS)
+     ▼
+  [Router] → [ISP] → [Internet Backbone] → [Google's Network]
+     │                                             │
+     │ ← ← ← ← ← ← HTML/CSS/JS ← ← ← ← ← ← ← ◄─┘
+     │
+     ▼
+  [Browser renders page] ✓
+
+  <span class="am">Security Note:</span> Each step can be attacked:
+  <span class="rd">DNS Spoofing</span>    → Redirect to fake IP
+  <span class="rd">MITM Attack</span>     → Intercept traffic between you and server
+  <span class="rd">SSL Stripping</span>   → Downgrade HTTPS to HTTP
+  <span class="rd">BGP Hijacking</span>   → Reroute internet traffic at ISP level
+</pre></div>
+
+    <div class="box box-warn"><div class="box-label">⚠️ Attacker Insight</div>
+      <p>Every one of these 7 steps is a potential attack point. DNS spoofing redirects you to a fake site. Man-in-the-Middle attacks intercept traffic between steps 3–5. Understanding the normal flow helps you spot the abnormal — which is exactly what security analysts do.</p>
+    </div>
+
+    <div class="yt-section">
+      <div class="yt-header"><div class="yt-badge">▶</div>Recommended Videos — Module 02</div>
+      <div class="yt-grid">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=x3c1ih2NJEg" target="_blank"><div class="yt-channel">Hostinger</div><div class="yt-title">How Does the Internet Work? Full Explanation</div><div class="yt-desc">Clear, visual walkthrough of internet infrastructure from packets to protocols</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=dh406O2v_1c" target="_blank"><div class="yt-channel">Khan Academy</div><div class="yt-title">What is the Internet?</div><div class="yt-desc">Foundational explanation of internet concepts for complete beginners</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=7_LPdttKXPc" target="_blank"><div class="yt-channel">Crash Course Computer Science</div><div class="yt-title">The Internet — How It Works</div><div class="yt-desc">Animated history and mechanics of the internet from a computer science perspective</div></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODULE 3 ===== -->
+  <div id="mod-m3" class="module">
+    <div class="mod-header">
+      <div class="mod-tags"><span class="tag tag-net">Networking</span><span class="tag tag-beg">Beginner</span></div>
+      <div class="mod-title">03 — IP ADDRESSING</div>
+      <div class="mod-sub">Every device needs an address. Learn the complete IP addressing system — from IPv4 structure to subnetting.</div>
+    </div>
+
+    <div class="box box-def"><div class="box-label">📖 Definition</div>
+      <p>An <strong>IP address (Internet Protocol address)</strong> is a unique numerical label assigned to every device on a network. It serves two functions: identifying the device (who) and providing its location on the network (where) — like a combination of your name and home address.</p>
+    </div>
+
+    <div class="h2">IPv4 Structure</div>
+    <div class="diagram"><pre>
+  <span class="cy">IPv4 ADDRESS ANATOMY</span>
+
+       <span class="cy">192</span>  .  <span class="gn">168</span>  .  <span class="am">1</span>   .  <span class="rd">100</span>
+       ────     ────     ─     ────
+     Octet 1  Octet 2  Oct3  Octet 4
+
+  Each octet = 8 bits → value 0 to 255
+  Total = 32 bits = 4,294,967,296 addresses
+
+  Binary representation:
+  <span class="cy">11000000</span>.<span class="gn">10101000</span>.<span class="am">00000001</span>.<span class="rd">01100100</span>
+    (192)     (168)      (1)      (100)
+
+  <span class="pu">Network portion</span> vs <span class="am">Host portion</span> determined by subnet mask
+</pre></div>
+
+    <div class="h2">IPv4 vs IPv6</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Feature</th><th>IPv4</th><th>IPv6</th></tr></thead>
+      <tbody>
+        <tr><td>Address Size</td><td>32-bit</td><td>128-bit</td></tr>
+        <tr><td>Total Addresses</td><td>~4.3 billion</td><td>340 undecillion (3.4 × 10³⁸)</td></tr>
+        <tr><td>Format</td><td>192.168.1.1 (decimal, dots)</td><td>2001:db8::1 (hex, colons)</td></tr>
+        <tr><td>Status</td><td>Still dominant, exhausted</td><td>Growing adoption</td></tr>
+        <tr><td>NAT Required?</td><td>Yes (address exhaustion)</td><td>No (abundant addresses)</td></tr>
+        <tr><td>Security</td><td>IPsec optional</td><td>IPsec mandatory</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="h2">Public vs Private vs Loopback</div>
+    <div class="diagram"><pre>
+  <span class="cy">PRIVATE IP RANGES</span> (RFC 1918 — not routable on internet)
+  ┌─────────────────────────────────────────────────────┐
+  │  Class A:  <span class="gn">10.0.0.0</span>       — 10.255.255.255   /8   │
+  │  Class B:  <span class="gn">172.16.0.0</span>     — 172.31.255.255   /12  │
+  │  Class C:  <span class="gn">192.168.0.0</span>    — 192.168.255.255  /16  │
+  └─────────────────────────────────────────────────────┘
+
+  <span class="am">SPECIAL ADDRESSES</span>
+  ┌──────────────────────────────────────────────────────┐
+  │  Loopback:  <span class="am">127.0.0.1</span>  → "localhost" (your own PC) │
+  │  APIPA:     169.254.x.x → Auto-assigned if DHCP fails│
+  │  Broadcast: x.x.x.255  → Send to all on subnet       │
+  └──────────────────────────────────────────────────────┘
+
+  <span class="cy">PUBLIC IPs</span> — everything else — routable globally
+  Your public IP: visible to the internet (check whatismyip.com)
+
+  <span class="rd">Security Tip:</span> Attackers scan PUBLIC IPs. Private IPs are
+  hidden behind NAT — but once inside the network, attackers
+  can reach ALL private addresses.
+</pre></div>
+
+    <div class="h2">Subnet Mask and CIDR Notation</div>
+    <div class="box box-def"><div class="box-label">📖 What is Subnetting?</div>
+      <p>A <strong>subnet mask</strong> divides an IP address into the <strong>network portion</strong> (which subnet you're on) and the <strong>host portion</strong> (which specific device). <strong>CIDR notation</strong> (e.g., /24) is a shorthand that tells you how many bits are used for the network portion.</p>
+    </div>
+    <div class="diagram"><pre>
+  <span class="cy">CIDR NOTATION EXPLAINED</span>
+
+  <span class="cy">192.168.1.0/24</span>
+                ──
+                24 bits = Network part
+                8 bits  = Host part
+
+  Subnet mask: 255.255.255.0
+  Hosts: 2^8 - 2 = <span class="gn">254 usable hosts</span>
+  Range: 192.168.1.1 → 192.168.1.254
+  Broadcast: 192.168.1.255
+
+  ─────────────────────────────────
+  <span class="am">CIDR CHEAT SHEET:</span>
+  /8   → 255.0.0.0       → ~16.7M hosts
+  /16  → 255.255.0.0     → 65,534 hosts
+  /24  → 255.255.255.0   → 254 hosts   ← most common
+  /25  → 255.255.255.128 → 126 hosts
+  /30  → 255.255.255.252 → 2 hosts  (point-to-point)
+  /32  → 255.255.255.255 → 1 host   (single device)
+
+  <span class="pu">Security Use Case:</span>
+  Segment VLAN_HR = 10.0.1.0/24
+  Segment VLAN_IT = 10.0.2.0/24
+  Firewall blocks traffic between VLANs
+  → Malware in HR can't spread to IT
+</pre></div>
+
+    <div class="h2">Static vs Dynamic IP</div>
+    <div class="card-grid">
+      <div class="card"><div class="card-ico">🔒</div><h4>Static IP</h4><p>Manually configured. Never changes. Used for servers, printers, cameras. Easier to firewall-rule — attackers know exactly where to find it.</p></div>
+      <div class="card"><div class="card-ico">🔄</div><h4>Dynamic IP (DHCP)</h4><p>Automatically assigned by DHCP server. Changes periodically. Used for workstations and phones. DHCP starvation is a real attack.</p></div>
+    </div>
+
+    <div class="yt-section">
+      <div class="yt-header"><div class="yt-badge">▶</div>Recommended Videos — Module 03</div>
+      <div class="yt-grid">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=s_gy4Sm5e8E" target="_blank"><div class="yt-channel">NetworkChuck</div><div class="yt-title">Subnetting is Simple! Full Tutorial</div><div class="yt-desc">The most popular subnetting tutorial — pizza analogy makes it click instantly</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=vcArZIAmnYQ" target="_blank"><div class="yt-channel">Professor Messer</div><div class="yt-title">IPv4 Addressing Explained</div><div class="yt-desc">CompTIA-level deep dive into IP addressing, classes, and subnets</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=BWZ-MHIhqjM" target="_blank"><div class="yt-channel">Sunny Classroom</div><div class="yt-title">IPv4 vs IPv6 — Full Comparison</div><div class="yt-desc">Comprehensive comparison with real examples and security implications</div></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODULE 4 ===== -->
+  <div id="mod-m4" class="module">
+    <div class="mod-header">
+      <div class="mod-tags"><span class="tag tag-net">Networking</span><span class="tag tag-beg">Beginner</span></div>
+      <div class="mod-title">04 — PORTS &amp; PROTOCOLS</div>
+      <div class="mod-sub">Ports are the doors; protocols are the languages. Master both and you understand how every application communicates over networks.</div>
+    </div>
+
+    <div class="box box-def"><div class="box-label">📖 What is a Port?</div>
+      <p>A <strong>port</strong> is a virtual communication endpoint, numbered 0–65535. If an IP address is the building address, the port is the apartment number. One server (one IP) can run dozens of services simultaneously because each uses a different port number.</p>
+    </div>
+
+    <div class="diagram"><pre>
+  <span class="cy">SERVER: 10.0.0.5</span>
+  ┌─────────────────────────────────────────────────┐
+  │                  SERVER                          │
+  │                                                  │
+  │  Port <span class="gn">22</span>   ←── SSH        (Encrypted terminal) │
+  │  Port <span class="cy">80</span>   ←── HTTP       (Unencrypted web)    │
+  │  Port <span class="cy">443</span>  ←── HTTPS      (Encrypted web)      │
+  │  Port <span class="am">21</span>   ←── FTP        (File transfer)       │
+  │  Port <span class="rd">23</span>   ←── Telnet     (AVOID — plaintext!) │
+  │  Port <span class="rd">3306</span> ←── MySQL      (Database)           │
+  │  Port <span class="am">25</span>   ←── SMTP       (Email sending)      │
+  │  Port <span class="pu">3389</span> ←── RDP        (Remote Desktop)     │
+  │  Port <span class="am">53</span>   ←── DNS        (Name resolution)    │
+  │  Port <span class="pu">67/68</span>←── DHCP       (IP assignment)      │
+  │                                                  │
+  └─────────────────────────────────────────────────┘
+  Attacker runs: <span class="rd">nmap -sV 10.0.0.5</span> → maps all open ports
+</pre></div>
+
+    <div class="h2">Port Ranges</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Range</th><th>Name</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>0 – 1023</td><td>Well-Known Ports</td><td>Assigned by IANA for standard services (HTTP=80, HTTPS=443, SSH=22)</td></tr>
+        <tr><td>1024 – 49151</td><td>Registered Ports</td><td>Registered by software vendors (MySQL=3306, PostgreSQL=5432)</td></tr>
+        <tr><td>49152 – 65535</td><td>Dynamic / Ephemeral</td><td>Temporary ports used by clients for outbound connections</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="h2">Critical Ports — Security Cheat Sheet</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Port</th><th>Protocol</th><th>Service</th><th>Transport</th><th>Security Note</th></tr></thead>
+      <tbody>
+        <tr><td><span class="port-pill pp-ssh">21</span></td><td>FTP</td><td>File Transfer</td><td>TCP</td><td>⚠️ Plaintext credentials — use SFTP (port 22) instead</td></tr>
+        <tr><td><span class="port-pill pp-ssh">22</span></td><td>SSH</td><td>Secure Shell</td><td>TCP</td><td>Encrypted — primary brute-force target; change default port</td></tr>
+        <tr><td><span class="port-pill pp-http">23</span></td><td>Telnet</td><td>Remote Terminal</td><td>TCP</td><td>🔴 Never use — completely plaintext; replace with SSH</td></tr>
+        <tr><td><span class="port-pill pp-smb">25</span></td><td>SMTP</td><td>Email Sending</td><td>TCP</td><td>Abused for spam; open relays are dangerous</td></tr>
+        <tr><td><span class="port-pill pp-dns">53</span></td><td>DNS</td><td>Name Resolution</td><td>UDP/TCP</td><td>DNS poisoning, tunneling attacks; critical service</td></tr>
+        <tr><td><span class="port-pill pp-http">80</span></td><td>HTTP</td><td>Web (unencrypted)</td><td>TCP</td><td>⚠️ Traffic visible to all; MITM attacks possible</td></tr>
+        <tr><td><span class="port-pill pp-http">110</span></td><td>POP3</td><td>Email Retrieval</td><td>TCP</td><td>Older email protocol; use IMAP/S or POP3S</td></tr>
+        <tr><td><span class="port-pill pp-http">143</span></td><td>IMAP</td><td>Email Access</td><td>TCP</td><td>Email management; IMAP4S (993) is encrypted version</td></tr>
+        <tr><td><span class="port-pill pp-http">443</span></td><td>HTTPS</td><td>Secure Web</td><td>TCP</td><td>✅ Encrypted — use TLS 1.3; check certificate validity</td></tr>
+        <tr><td><span class="port-pill pp-smb">445</span></td><td>SMB</td><td>File Sharing</td><td>TCP</td><td>🔴 EternalBlue exploit, WannaCry; block externally always</td></tr>
+        <tr><td><span class="port-pill pp-db">3306</span></td><td>MySQL</td><td>Database</td><td>TCP</td><td>Never expose to internet; source of SQL injection attacks</td></tr>
+        <tr><td><span class="port-pill pp-db">3389</span></td><td>RDP</td><td>Remote Desktop</td><td>TCP</td><td>🔴 Massive brute-force target; use VPN + MFA</td></tr>
+        <tr><td><span class="port-pill pp-http">8080</span></td><td>HTTP-Alt</td><td>Dev Web Server</td><td>TCP</td><td>Often misconfigured; proxies and dev servers use this</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="h2">Key Protocols Explained</div>
+    <div class="card-grid">
+      <div class="card"><div class="card-ico">🌐</div><h4>HTTP/HTTPS</h4><p>HyperText Transfer Protocol. HTTP=unencrypted (port 80), HTTPS=encrypted with TLS (port 443). All web browsing.</p></div>
+      <div class="card"><div class="card-ico">🔑</div><h4>SSH</h4><p>Secure Shell. Encrypted remote terminal access. Replaced Telnet. Uses port 22. Supports key-based auth.</p></div>
+      <div class="card"><div class="card-ico">📧</div><h4>SMTP/IMAP/POP3</h4><p>Email protocols. SMTP sends (port 25/587). IMAP retrieves without deleting (143/993). POP3 downloads &amp; deletes (110/995).</p></div>
+      <div class="card"><div class="card-ico">🏠</div><h4>DHCP</h4><p>Assigns IP addresses automatically. DORA process: Discover, Offer, Request, Acknowledge. Ports 67/68.</p></div>
+      <div class="card"><div class="card-ico">📁</div><h4>FTP/SFTP</h4><p>File transfer. FTP (21) is plaintext — avoid. SFTP (22) is SSH-based and encrypted — use this.</p></div>
+      <div class="card"><div class="card-ico">📊</div><h4>SNMP</h4><p>Simple Network Management Protocol. Monitors network devices. Versions 1/2c use community strings (weak). Use SNMPv3.</p></div>
+    </div>
+
+    <div class="yt-section">
+      <div class="yt-header"><div class="yt-badge">▶</div>Recommended Videos — Module 04</div>
+      <div class="yt-grid">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=g2fT-g9PX9o" target="_blank"><div class="yt-channel">NetworkChuck</div><div class="yt-title">Nmap — Port Scanning Masterclass</div><div class="yt-desc">Learn how attackers and defenders use Nmap to discover open ports</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=uwoD5YsGACg" target="_blank"><div class="yt-channel">Computerphile</div><div class="yt-title">TCP vs UDP — The Difference</div><div class="yt-desc">Academic deep dive into transport layer protocols and their tradeoffs</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=Vdc8TCESIg8" target="_blank"><div class="yt-channel">CBT Nuggets</div><div class="yt-title">Well-Known Ports for Security+</div><div class="yt-desc">Memorize all critical port numbers needed for certifications and real jobs</div></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODULE 5 ===== -->
+  <div id="mod-m5" class="module">
+    <div class="mod-header">
+      <div class="mod-tags"><span class="tag tag-net">Networking</span><span class="tag tag-int">Intermediate</span></div>
+      <div class="mod-title">05 — THE OSI MODEL</div>
+      <div class="mod-sub">The 7-layer reference model that every security professional lives by. Every attack, defense tool, and protocol maps to a specific layer.</div>
+    </div>
+
+    <div class="box box-def"><div class="box-label">📖 Definition</div>
+      <p>The <strong>OSI (Open Systems Interconnection) Model</strong> is a conceptual framework developed by ISO that divides network communication into 7 distinct layers. Each layer has a specific job, talks only to the layers directly above/below it, and uses specific protocols. Knowing the OSI model means knowing exactly where an attack happens and what tools defend against it.</p>
+    </div>
+
+    <div class="box box-ex"><div class="box-label">💡 Analogy — Sending a Package Internationally</div>
+      <p>Layer 7: You write the letter (your app creates data). Layer 6: Translate language (encoding). Layer 5: Open conversation with recipient. Layer 4: Choose delivery service (reliable FedEx = TCP, fast courier = UDP). Layer 3: Write the address (IP). Layer 2: Local post office handles it (MAC). Layer 1: The truck physically drives it (cables/Wi-Fi).</p>
+    </div>
+
+    <div class="h2">All 7 Layers — Full Reference</div>
+    <div class="osi-stack">
+      <div class="osi-row l7"><div class="osi-num">7</div><div class="osi-name">Application</div><div class="osi-desc">User-facing apps interact with network. Where user data originates.</div><div class="osi-ex">HTTP, HTTPS, FTP, SMTP, DNS, SSH</div></div>
+      <div class="osi-row l6"><div class="osi-num">6</div><div class="osi-name">Presentation</div><div class="osi-desc">Data translation, encryption, compression between systems.</div><div class="osi-ex">TLS/SSL, JPEG, ASCII, Base64</div></div>
+      <div class="osi-row l5"><div class="osi-num">5</div><div class="osi-name">Session</div><div class="osi-desc">Manages communication sessions — opens, maintains, closes.</div><div class="osi-ex">NetBIOS, RPC, PPTP, cookies</div></div>
+      <div class="osi-row l4"><div class="osi-num">4</div><div class="osi-name">Transport</div><div class="osi-desc">End-to-end delivery, flow control, error recovery, segmentation.</div><div class="osi-ex">TCP, UDP, port numbers</div></div>
+      <div class="osi-row l3"><div class="osi-num">3</div><div class="osi-name">Network</div><div class="osi-desc">Logical addressing (IP) and packet routing between networks.</div><div class="osi-ex">IP, ICMP, OSPF, BGP, Routers</div></div>
+      <div class="osi-row l2"><div class="osi-num">2</div><div class="osi-name">Data Link</div><div class="osi-desc">Physical addressing (MAC), error detection within same network.</div><div class="osi-ex">Ethernet, ARP, Wi-Fi, Switches</div></div>
+      <div class="osi-row l1"><div class="osi-num">1</div><div class="osi-name">Physical</div><div class="osi-desc">Raw bit transmission over physical media — electrical signals.</div><div class="osi-ex">Cables, Hubs, Wi-Fi radio, Fiber</div></div>
+    </div>
+
+    <div class="diagram"><pre>
+  <span class="cy">DATA ENCAPSULATION — Sender Side (going DOWN)</span>
+
+  Layer 7: Application  │ Data                           │
+  Layer 6: Presentation │ [L6 Header] Data               │
+  Layer 5: Session      │ [L5 Hdr][L6 Hdr] Data          │
+  Layer 4: Transport    │ [TCP Hdr][...] Data  ← SEGMENT  │
+  Layer 3: Network      │ [IP Hdr][TCP Hdr] Data ← PACKET │
+  Layer 2: Data Link    │ [MAC Hdr][IP][TCP] Data ← FRAME │
+  Layer 1: Physical     │ 01001010110010... (bits)        │
+
+  <span class="gn">DATA DE-ENCAPSULATION — Receiver Side (going UP)</span>
+  Each layer strips off its header and passes to layer above
+</pre></div>
+
+    <div class="h2">Attacks at Each OSI Layer</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Layer</th><th>Technology</th><th>Attack Type</th><th>Defense</th></tr></thead>
+      <tbody>
+        <tr><td>7 — Application</td><td>HTTP, DNS, SMTP</td><td>SQL Injection, XSS, DNS Spoofing, Phishing</td><td>WAF, input validation, patching</td></tr>
+        <tr><td>6 — Presentation</td><td>TLS, SSL</td><td>SSL Stripping, Downgrade Attack, Heartbleed</td><td>Enforce TLS 1.3, HSTS headers</td></tr>
+        <tr><td>5 — Session</td><td>Sessions, Cookies</td><td>Session Hijacking, Cookie Theft, CSRF</td><td>Secure cookie flags, token rotation</td></tr>
+        <tr><td>4 — Transport</td><td>TCP, UDP</td><td>SYN Flood, UDP Flood, Port Scanning</td><td>Rate limiting, SYN cookies, firewall</td></tr>
+        <tr><td>3 — Network</td><td>IP, ICMP</td><td>IP Spoofing, ICMP Flood, Route Hijacking</td><td>Ingress filtering, BGP security</td></tr>
+        <tr><td>2 — Data Link</td><td>ARP, MAC, Ethernet</td><td>ARP Spoofing, MAC Flooding, VLAN Hopping</td><td>Dynamic ARP Inspection, port security</td></tr>
+        <tr><td>1 — Physical</td><td>Cables, Wi-Fi</td><td>Wiretapping, Jamming, USB Drop Attacks</td><td>Physical security, shielded cables</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="box box-tip"><div class="box-label">💡 Memory Trick — Top to Bottom</div>
+      <p><strong>"All People Seem To Need Data Processing"</strong><br>Application → Presentation → Session → Transport → Network → Data Link → Physical</p>
+    </div>
+
+    <div class="yt-section">
+      <div class="yt-header"><div class="yt-badge">▶</div>Recommended Videos — Module 05</div>
+      <div class="yt-grid">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=vv4y_uOneC0" target="_blank"><div class="yt-channel">TechTerms</div><div class="yt-title">OSI Model Explained | Full Animation</div><div class="yt-desc">Best animated walkthrough of all 7 OSI layers with real-world examples</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=t-ai8JzhHuY" target="_blank"><div class="yt-channel">NetworkChuck</div><div class="yt-title">OSI Model — Why It Matters for Security</div><div class="yt-desc">Security-focused OSI explanation with attack mapping at each layer</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=LANW3m7UgWs" target="_blank"><div class="yt-channel">PowerCert Animated</div><div class="yt-title">OSI Model — 7 Layers Explained</div><div class="yt-desc">Crystal-clear animated breakdown with protocols at every layer</div></a>
+      </div>
+    </div>
+  </div>
+  <!-- ===== MODULE 6 ===== -->
+  <div id="mod-m6" class="module">
+    <div class="mod-header">
+      <div class="mod-tags"><span class="tag tag-net">Networking</span><span class="tag tag-int">Intermediate</span></div>
+      <div class="mod-title">06 — TCP/IP MODEL</div>
+      <div class="mod-sub">The real-world networking stack that actually runs the internet — simpler than OSI but what's actually implemented in every device.</div>
+    </div>
+    <div class="box box-def"><div class="box-label">📖 Definition</div>
+      <p>The <strong>TCP/IP Model</strong> (also called the Internet Model or DoD Model) is the practical 4-layer framework that governs how data is transmitted across the Internet. While OSI is a theoretical reference model, TCP/IP is what's actually implemented in operating systems and network hardware today.</p>
+    </div>
+    <div class="diagram"><pre>
+  <span class="cy">TCP/IP MODEL vs OSI MODEL</span>
+
+  OSI (7 Layers)          TCP/IP (4 Layers)     Protocols
+  ────────────────────    ──────────────────    ──────────────────────
+  7. Application     ─┐
+  6. Presentation     ├─► 4. Application        HTTP, FTP, DNS, SMTP
+  5. Session         ─┘
+  4. Transport       ────► 3. Transport          TCP, UDP
+  3. Network         ────► 2. Internet           IP, ICMP, ARP
+  2. Data Link       ─┐
+  1. Physical        ─┴─► 1. Network Access      Ethernet, Wi-Fi, PPP
+
+  <span class="gn">OSI</span> = theoretical reference model (standardization)
+  <span class="am">TCP/IP</span> = what actually runs on every computer and router
+</pre></div>
+    <div class="h2">Each TCP/IP Layer Explained</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Layer</th><th>Name</th><th>Job</th><th>Key Protocols</th></tr></thead>
+      <tbody>
+        <tr><td>4</td><td>Application</td><td>User-facing services and data formatting</td><td>HTTP, HTTPS, FTP, DNS, SMTP, SSH</td></tr>
+        <tr><td>3</td><td>Transport</td><td>End-to-end communication, reliability, port addressing</td><td>TCP (reliable), UDP (fast)</td></tr>
+        <tr><td>2</td><td>Internet</td><td>Logical addressing (IP), routing between networks</td><td>IPv4, IPv6, ICMP, ARP</td></tr>
+        <tr><td>1</td><td>Network Access</td><td>Physical transmission of data, hardware addressing</td><td>Ethernet, Wi-Fi, MAC addresses</td></tr>
+      </tbody>
+    </table></div>
+    <div class="h2">Packet Structure and Encapsulation</div>
+    <div class="diagram"><pre>
+  <span class="cy">PACKET ENCAPSULATION — Layer by Layer</span>
+
+  Application Layer creates: <span class="gn">[DATA]</span>
+
+  Transport Layer adds TCP header:
+  <span class="pu">[TCP Header | Source Port | Dest Port | Seq# | Flags]</span><span class="gn">[DATA]</span>
+  This unit is called a <span class="pu">SEGMENT</span>
+
+  Internet Layer adds IP header:
+  <span class="am">[IP Header | Src IP | Dst IP | TTL | Protocol]</span><span class="pu">[TCP Hdr]</span><span class="gn">[DATA]</span>
+  This unit is called a <span class="am">PACKET</span>
+
+  Network Access Layer adds Ethernet header:
+  <span class="cy">[Eth Hdr | Src MAC | Dst MAC]</span><span class="am">[IP Hdr]</span><span class="pu">[TCP Hdr]</span><span class="gn">[DATA]</span><span class="cy">[FCS]</span>
+  This unit is called a <span class="cy">FRAME</span>
+
+  Physical Layer:
+  0110100010110001001... (raw bits on wire/wireless)
+</pre></div>
+    <div class="box box-sec"><div class="box-label">🔐 Security Use — Packet Analysis</div>
+      <p>When you capture network traffic with Wireshark, you're seeing these exact headers. <strong>Defenders</strong> analyze headers to detect attacks. <strong>Attackers</strong> forge headers to spoof source IPs. Understanding packet structure is foundational for both roles.</p>
+    </div>
+    <div class="yt-section">
+      <div class="yt-header"><div class="yt-badge">▶</div>Recommended Videos — Module 06</div>
+      <div class="yt-grid">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=AEkEOXFPLEA" target="_blank"><div class="yt-channel">Computerphile</div><div class="yt-title">TCP/IP and the Internet</div><div class="yt-desc">Deep technical explanation of the TCP/IP stack and Internet protocols</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=PpsEaqJV_A0" target="_blank"><div class="yt-channel">David Bombal</div><div class="yt-title">TCP/IP Model — Network Fundamentals</div><div class="yt-desc">Practical TCP/IP walkthrough with Wireshark packet captures</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=PsozKzVsSFw" target="_blank"><div class="yt-channel">PowerCert Animated</div><div class="yt-title">TCP/IP vs OSI Model — Side by Side</div><div class="yt-desc">Clear animated comparison of both models with real protocol examples</div></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODULE 7 ===== -->
+  <div id="mod-m7" class="module">
+    <div class="mod-header">
+      <div class="mod-tags"><span class="tag tag-net">Networking</span><span class="tag tag-int">Intermediate</span></div>
+      <div class="mod-title">07 — TCP vs UDP DEEP DIVE</div>
+      <div class="mod-sub">Two transport protocols with fundamentally different philosophies. Knowing when and why each is used is critical for understanding attacks and defenses.</div>
+    </div>
+    <div class="diagram"><pre>
+  <span class="cy">TCP (Transmission Control Protocol)</span>   <span class="am">UDP (User Datagram Protocol)</span>
+
+  Connection-ORIENTED                    Connection-LESS
+  Must handshake before sending          Just sends — no setup
+  Reliable — confirms every packet       No confirmation
+  In-order delivery guaranteed           Packets may arrive out of order
+  Flow control and congestion control    No flow control
+  Slower (overhead)                      Faster (minimal overhead)
+  Used by: HTTP, SSH, FTP, SMTP         Used by: DNS, VoIP, Gaming, Video
+
+  <span class="pu">Analogy:</span>
+  TCP = Certified mail with tracking    UDP = Dropping a postcard in a mailbox
+        "Did it arrive? Confirm."             "Hope it gets there."
+</pre></div>
+    <div class="h2">The TCP Three-Way Handshake</div>
+    <div class="step-flow">
+      <div class="step-item">
+        <div class="step-left"><div class="step-circle">SYN</div><div class="step-connector"></div></div>
+        <div class="step-body"><h4>Client → Server: SYN (Synchronize)</h4><p>Client sends a packet with SYN flag set and a random Initial Sequence Number (ISN). "I'd like to connect. My sequence starts at 1000."</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-left"><div class="step-circle">S/A</div><div class="step-connector"></div></div>
+        <div class="step-body"><h4>Server → Client: SYN-ACK (Synchronize-Acknowledge)</h4><p>Server acknowledges (ACK=1001) and sends its own SYN with its ISN. "Got it. I'm ready. My sequence starts at 4000."</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-left"><div class="step-circle">ACK</div></div>
+        <div class="step-body"><h4>Client → Server: ACK (Acknowledge)</h4><p>Client acknowledges server's SYN (ACK=4001). Connection is now fully established. Data can flow in both directions.</p></div>
+      </div>
+    </div>
+    <div class="diagram"><pre>
+  <span class="cy">TCP HANDSHAKE TIMELINE</span>
+
+  CLIENT                                    SERVER
+    │                                          │
+    │──── SYN (seq=1000) ─────────────────────►│
+    │                                          │
+    │◄─── SYN-ACK (seq=4000, ack=1001) ───────│
+    │                                          │
+    │──── ACK (ack=4001) ─────────────────────►│
+    │                                          │
+    │══════════ DATA TRANSFER ════════════════│
+    │                                          │
+    │──── FIN ────────────────────────────────►│  Connection termination
+    │◄─── FIN-ACK ────────────────────────────│  (4-way closing handshake)
+    │──── ACK ────────────────────────────────►│
+
+  <span class="rd">SYN FLOOD ATTACK:</span>
+  Attacker → Server: SYN (spoofed IP) [×100,000]
+  Server: Allocates memory for half-open connections, waits...
+  Server: Runs out of memory → CRASHES (Denial of Service)
+  Defense: SYN cookies, rate limiting, Firewall rules
+</pre></div>
+    <div class="h2">TCP Flags — The Control Signals</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Flag</th><th>Name</th><th>Purpose</th><th>Security Note</th></tr></thead>
+      <tbody>
+        <tr><td>SYN</td><td>Synchronize</td><td>Initiate connection</td><td>SYN Flood DoS attacks send massive SYNs</td></tr>
+        <tr><td>ACK</td><td>Acknowledge</td><td>Confirm receipt</td><td>ACK scan can bypass stateless firewalls</td></tr>
+        <tr><td>FIN</td><td>Finish</td><td>Gracefully close connection</td><td>FIN scan used for stealth port scanning</td></tr>
+        <tr><td>RST</td><td>Reset</td><td>Immediately abort connection</td><td>RST injection can forcibly close TCP sessions</td></tr>
+        <tr><td>PSH</td><td>Push</td><td>Send data immediately (no buffering)</td><td>Used in some DoS attacks</td></tr>
+        <tr><td>URG</td><td>Urgent</td><td>Prioritize this data</td><td>Rarely used legitimately; appears in some attacks</td></tr>
+      </tbody>
+    </table></div>
+    <div class="yt-section">
+      <div class="yt-header"><div class="yt-badge">▶</div>Recommended Videos — Module 07</div>
+      <div class="yt-grid">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=xMtP5ZB3wSk" target="_blank"><div class="yt-channel">PowerCert Animated</div><div class="yt-title">TCP Three-Way Handshake Explained</div><div class="yt-desc">Animated step-by-step visualization of how TCP connections are established</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=rmFX1V49K8U" target="_blank"><div class="yt-channel">David Bombal</div><div class="yt-title">SYN Flood DDoS Attack Demo</div><div class="yt-desc">Real SYN flood attack in a lab — how it works and how to defend</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=qqX3yhiTtdk" target="_blank"><div class="yt-channel">Sunny Classroom</div><div class="yt-title">TCP vs UDP — Full Comparison</div><div class="yt-desc">Complete side-by-side comparison with real-world use cases</div></a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===== MODULE 7b — TCP THREE-WAY HANDSHAKE (DEDICATED) ===== -->
+  <div id="mod-m7b" class="module">
+    <div class="mod-header">
+      <div class="mod-tags"><span class="tag tag-net">Networking</span><span class="tag tag-int">Intermediate</span><span class="tag tag-att">Attack Relevant</span></div>
+      <div class="mod-title">07b — TCP THREE-WAY HANDSHAKE</div>
+      <div class="mod-sub">The most important handshake in networking. Every TCP connection starts here — and some of the most common attacks exploit exactly this process.</div>
+    </div>
+
+    <div class="box box-def"><div class="box-label">📖 Definition</div>
+      <p>The <strong>TCP Three-Way Handshake</strong> is the connection setup process used by TCP (Transmission Control Protocol) before any data can be exchanged between two devices. It ensures both sides are ready, synchronized, and agree on sequence numbers. Without completing this handshake, no TCP connection exists.</p>
+    </div>
+
+    <div class="box box-ex"><div class="box-label">💡 Real World Analogy — Phone Call</div>
+      <p>Imagine calling a friend:<br>
+      <strong>You:</strong> "Hello? Can you hear me?" (SYN — I want to connect)<br>
+      <strong>Friend:</strong> "Yes I hear you! Can you hear me?" (SYN-ACK — I acknowledge you, and I'm ready too)<br>
+      <strong>You:</strong> "Yes! Perfect." (ACK — confirmed, let's talk)<br>
+      Now the conversation (data transfer) begins. That's exactly the TCP handshake.</p>
+    </div>
+
+    <div class="h2">Step-by-Step Breakdown</div>
+    <div class="step-flow">
+      <div class="step-item">
+        <div class="step-left"><div class="step-circle">1</div><div class="step-connector"></div></div>
+        <div class="step-body">
+          <h4>SYN — "I want to connect"</h4>
+          <p>The <strong>client</strong> sends a TCP segment with the <strong>SYN</strong> (synchronize) flag set. It also picks a random <strong>Initial Sequence Number (ISN)</strong> — let's say 1000. This number is used to track packets in order.</p>
+          <p style="font-family:'Space Mono',monospace;font-size:.78rem;background:var(--bg3);padding:.5rem .8rem;border-radius:5px;color:var(--cyan)">Client → Server: [SYN] seq=1000</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-left"><div class="step-circle">2</div><div class="step-connector"></div></div>
+        <div class="step-body">
+          <h4>SYN-ACK — "Ready! Here's my info too"</h4>
+          <p>The <strong>server</strong> replies with both <strong>SYN</strong> and <strong>ACK</strong> flags set. It acknowledges the client's sequence number (ACK = 1001, meaning "I got up to 1000, send me 1001 next") and picks its own random ISN — say 4000.</p>
+          <p style="font-family:'Space Mono',monospace;font-size:.78rem;background:var(--bg3);padding:.5rem .8rem;border-radius:5px;color:var(--green)">Server → Client: [SYN-ACK] seq=4000, ack=1001</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-left"><div class="step-circle">3</div></div>
+        <div class="step-body">
+          <h4>ACK — "Got it. Let's go!"</h4>
+          <p>The <strong>client</strong> acknowledges the server's sequence number (ACK = 4001). No data yet — just the final confirmation. The connection is now <strong>fully established (ESTABLISHED state)</strong> and data transfer can begin.</p>
+          <p style="font-family:'Space Mono',monospace;font-size:.78rem;background:var(--bg3);padding:.5rem .8rem;border-radius:5px;color:var(--amber)">Client → Server: [ACK] ack=4001</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="h2">Visual Timeline Diagram</div>
+    <div class="diagram"><pre>
+  <span class="cy">TCP THREE-WAY HANDSHAKE — FULL TIMELINE</span>
+
+  CLIENT                                         SERVER
+  (Your Browser)                              (Web Server)
+      │                                            │
+      │──── [SYN] seq=1000 ──────────────────────►│
+      │     "I want to connect. My seq starts 1000"│
+      │                                            │
+      │◄─── [SYN-ACK] seq=4000, ack=1001 ─────────│
+      │     "Ready! My seq=4000. Got your 1000 ✓"  │
+      │                                            │
+      │──── [ACK] ack=4001 ──────────────────────►│
+      │     "Got your 4000 ✓. Connection open!"    │
+      │                                            │
+      │════════════ DATA TRANSFER ════════════════│
+      │  GET /index.html HTTP/1.1                  │
+      │  HTTP/1.1 200 OK...                        │
+      │                                            │
+      │──── [FIN] ───────────────────────────────►│  Close connection
+      │◄─── [FIN-ACK] ──────────────────────────── │  (4-step teardown)
+      │◄─── [FIN] ──────────────────────────────── │
+      │──── [ACK] ───────────────────────────────►│
+
+  <span class="gn">States:</span>
+  Client: CLOSED → SYN_SENT → ESTABLISHED → data flows → TIME_WAIT → CLOSED
+  Server: LISTEN  → SYN_RCVD → ESTABLISHED → data flows → CLOSE_WAIT → CLOSED
+</pre></div>
+
+    <div class="h2">Practical Example — Web Browser to Google</div>
+    <div class="diagram"><pre>
+  <span class="cy">REAL EXAMPLE: Opening https://google.com</span>
+
+  Your PC (192.168.1.10 : port 52341)    Google (142.250.80.46 : port 443)
+
+  <span class="gn">STEP 1 — SYN</span>
+  ┌────────────────────────────────────────────────────────┐
+  │ IP Header:  Src=192.168.1.10  Dst=142.250.80.46        │
+  │ TCP Header: SrcPort=52341  DstPort=443  Flags=[SYN]    │
+  │             Seq=3847201836  Ack=0  (no ack yet)        │
+  └────────────────────────────────────────────────────────┘
+  192.168.1.10 ──────────────────────────────► 142.250.80.46
+
+  <span class="am">STEP 2 — SYN-ACK</span>
+  ┌────────────────────────────────────────────────────────┐
+  │ IP Header:  Src=142.250.80.46  Dst=192.168.1.10        │
+  │ TCP Header: SrcPort=443  DstPort=52341  Flags=[SYN,ACK]│
+  │             Seq=1924857301  Ack=3847201837             │
+  └────────────────────────────────────────────────────────┘
+  142.250.80.46 ◄─────────────────────────────► 192.168.1.10
+
+  <span class="pu">STEP 3 — ACK</span>
+  ┌────────────────────────────────────────────────────────┐
+  │ IP Header:  Src=192.168.1.10  Dst=142.250.80.46        │
+  │ TCP Header: SrcPort=52341  DstPort=443  Flags=[ACK]    │
+  │             Seq=3847201837  Ack=1924857302             │
+  └────────────────────────────────────────────────────────┘
+  192.168.1.10 ──────────────────────────────► 142.250.80.46
+
+  ✅ Connection ESTABLISHED — TLS handshake starts next
+</pre></div>
+
+    <div class="h2">Wireshark — Capturing the Handshake</div>
+    <div class="code-block">
+      <div class="code-hdr"><div class="code-dots"><div class="cd cd-r"></div><div class="cd cd-y"></div><div class="cd cd-g"></div></div><span class="code-lang">WIRESHARK — FILTER FOR TCP HANDSHAKE</span></div>
+      <code>
+<span class="c-cmt"># In Wireshark display filter bar, type:</span>
+<span class="c-out">tcp.flags.syn == 1</span>              <span class="c-cmt"># Show all SYN packets</span>
+<span class="c-out">tcp.flags.syn == 1 && tcp.flags.ack == 0</span>   <span class="c-cmt"># Only initial SYN</span>
+<span class="c-out">tcp.flags.syn == 1 && tcp.flags.ack == 1</span>   <span class="c-cmt"># Only SYN-ACK</span>
+<span class="c-out">tcp.stream eq 5</span>                <span class="c-cmt"># Follow specific TCP stream</span>
+
+<span class="c-cmt"># In tcpdump (terminal):</span>
+<span class="c-cmd">tcpdump</span> <span class="c-flag">-i eth0 'tcp[13] == 2'</span>    <span class="c-cmt"># SYN only (flag byte = 0x02)</span>
+<span class="c-cmd">tcpdump</span> <span class="c-flag">-i eth0 'tcp[13] == 18'</span>   <span class="c-cmt"># SYN-ACK (0x02 + 0x10 = 18)</span>
+<span class="c-cmd">tcpdump</span> <span class="c-flag">-i eth0 host google.com</span>   <span class="c-cmt"># All traffic to/from Google</span>
+
+<span class="c-cmt"># Wireshark output will look like this:</span>
+<span class="c-out">No.  Time     Src             Dst             Info</span>
+<span class="c-out">1    0.000    192.168.1.10    142.250.80.46   52341 → 443 [SYN] Seq=0</span>
+<span class="c-out">2    0.023    142.250.80.46   192.168.1.10    443 → 52341 [SYN, ACK] Seq=0 Ack=1</span>
+<span class="c-out">3    0.024    192.168.1.10    142.250.80.46   52341 → 443 [ACK] Seq=1 Ack=1</span>
+      </code>
+    </div>
+
+    <div class="h2">How Attackers Exploit the Handshake — SYN Flood Attack</div>
+    <div class="box box-warn"><div class="box-label">⚠️ SYN Flood — DoS Attack</div>
+      <p>The SYN flood attack exploits the fact that after receiving a SYN, the server allocates memory for a <strong>half-open connection</strong> and waits for the final ACK. If the ACK never comes, the server's connection table fills up and it can't accept any new legitimate connections — effectively a Denial of Service (DoS).</p>
+    </div>
+    <div class="diagram"><pre>
+  <span class="cy">NORMAL vs SYN FLOOD ATTACK</span>
+
+  <span class="gn">NORMAL (3 packets, connection established):</span>
+  Client → Server: SYN
+  Server → Client: SYN-ACK  ← Server allocates memory, waits for ACK
+  Client → Server: ACK       ← ACK arrives, connection complete ✓
+
+  <span class="rd">SYN FLOOD ATTACK:</span>
+  Attacker → Server: SYN (src IP = 1.2.3.4 — SPOOFED)
+  Server → 1.2.3.4: SYN-ACK ← Memory allocated, waiting...
+  ACK never arrives (1.2.3.4 doesn't exist)
+
+  Attacker → Server: SYN (src IP = 5.6.7.8 — SPOOFED)
+  Attacker → Server: SYN (src IP = 9.10.11.12 — SPOOFED)
+  Attacker → Server: SYN × 100,000 / second
+
+  Server's half-open connection table:
+  ┌──────────────────────────────────────┐
+  │ 1.2.3.4   : waiting for ACK...       │
+  │ 5.6.7.8   : waiting for ACK...       │
+  │ 9.10.11.12: waiting for ACK...       │
+  │ [TABLE FULL — can't accept new conns]│
+  └──────────────────────────────────────┘
+  <span class="rd">Result: REAL users can't connect → Service DOWN</span>
+
+  <span class="gn">DEFENSES:</span>
+  ✓ SYN Cookies — server doesn't allocate memory until ACK received
+  ✓ Rate limiting — firewall drops excessive SYNs from one source
+  ✓ Firewall rules — block known scanning IPs
+  ✓ Load balancers — distribute and absorb attack traffic
+</pre></div>
+
+    <div class="h2">TCP Connection States Reference</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>State</th><th>Who</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td>CLOSED</td><td>Both</td><td>No connection. Starting point and ending point.</td></tr>
+        <tr><td>LISTEN</td><td>Server</td><td>Server is waiting for incoming connection requests.</td></tr>
+        <tr><td>SYN-SENT</td><td>Client</td><td>Client sent SYN, waiting for SYN-ACK.</td></tr>
+        <tr><td>SYN-RECEIVED</td><td>Server</td><td>Server received SYN, sent SYN-ACK, waiting for ACK. (Half-open — exploited by SYN flood)</td></tr>
+        <tr><td>ESTABLISHED</td><td>Both</td><td>Handshake complete. Data is flowing.</td></tr>
+        <tr><td>FIN-WAIT</td><td>Initiator</td><td>Sent FIN, waiting for connection to close gracefully.</td></tr>
+        <tr><td>TIME-WAIT</td><td>Closer</td><td>Waiting to ensure remote end got the final ACK before closing.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="box box-tip"><div class="box-label">💡 Why Sequence Numbers Matter for Security</div>
+      <p>In the early internet, TCP sequence numbers were predictable. Attackers could <strong>guess the next sequence number</strong> and inject forged packets into a TCP session — called a <strong>TCP Session Hijacking</strong> attack. Modern OS implementations use cryptographically random ISNs to prevent this.</p>
+    </div>
+
+    <div class="yt-section">
+      <div class="yt-header"><div class="yt-badge">▶</div>Recommended Videos — TCP Three-Way Handshake</div>
+      <div class="yt-grid">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=xMtP5ZB3wSk" target="_blank"><div class="yt-channel">PowerCert Animated Videos</div><div class="yt-title">TCP 3-Way Handshake — Animated</div><div class="yt-desc">Best visual animation of SYN → SYN-ACK → ACK with clear packet diagrams</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=bW_BILl7n0Y" target="_blank"><div class="yt-channel">Computerphile</div><div class="yt-title">TCP Handshake &amp; Sequence Numbers</div><div class="yt-desc">Academic deep dive into sequence numbers, acknowledgements, and why they matter</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=rmFX1V49K8U" target="_blank"><div class="yt-channel">David Bombal</div><div class="yt-title">SYN Flood Attack — Live Demo</div><div class="yt-desc">Watch a real SYN flood DoS attack and learn exactly how SYN cookies defend against it</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=4BMG3XNBStE" target="_blank"><div class="yt-channel">NetworkChuck</div><div class="yt-title">TCP/IP Handshake — Why It Matters for Hackers</div><div class="yt-desc">Hacker-focused explanation: how the handshake works and how it's attacked</div></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODULE 8 ===== -->
+  <div id="mod-m8" class="module">
+    <div class="mod-header">
+      <div class="mod-tags"><span class="tag tag-net">Networking</span><span class="tag tag-int">Intermediate</span></div>
+      <div class="mod-title">08 — DNS DEEP DIVE</div>
+      <div class="mod-sub">The internet's phone book — and one of the most attacked protocols in existence. Understand DNS to understand a huge attack surface.</div>
+    </div>
+    <div class="box box-def"><div class="box-label">📖 Definition</div>
+      <p><strong>DNS (Domain Name System)</strong> translates human-readable domain names (google.com) into machine-readable IP addresses (142.250.80.46). Without DNS, you'd need to memorize IP addresses for every website. DNS operates over port 53, primarily using UDP for queries.</p>
+    </div>
+    <div class="h2">DNS Resolution — Step by Step</div>
+    <div class="step-flow">
+      <div class="step-item">
+        <div class="step-left"><div class="step-circle">1</div><div class="step-connector"></div></div>
+        <div class="step-body"><h4>Browser checks local cache</h4><p>Before any network request, the browser checks if it already knows the IP (from a recent visit). Operating system also has a DNS cache (<code style="background:var(--bg3);padding:0 4px;border-radius:3px;font-size:.8rem">ipconfig /displaydns</code> on Windows).</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-left"><div class="step-circle">2</div><div class="step-connector"></div></div>
+        <div class="step-body"><h4>Ask the Recursive Resolver</h4><p>If not cached, your device asks the configured DNS server (e.g., 8.8.8.8 Google, 1.1.1.1 Cloudflare, or your ISP's). The resolver does the heavy lifting.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-left"><div class="step-circle">3</div><div class="step-connector"></div></div>
+        <div class="step-body"><h4>Resolver asks Root Nameserver</h4><p>13 sets of root nameservers globally. Resolver asks: "Who handles .com?" Root says: "Ask the .com TLD nameserver."</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-left"><div class="step-circle">4</div><div class="step-connector"></div></div>
+        <div class="step-body"><h4>TLD Nameserver → Authoritative NS</h4><p>.com TLD server says: "google.com's authoritative nameserver is ns1.google.com." Resolver then asks Google's own nameserver.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-left"><div class="step-circle">5</div></div>
+        <div class="step-body"><h4>Authoritative Nameserver responds</h4><p>Google's ns1.google.com answers: "142.250.80.46" — the real IP. Resolver caches it, sends it back. Browser connects. Entire process: ~20–100ms.</p></div>
+      </div>
+    </div>
+    <div class="diagram"><pre>
+  <span class="cy">DNS RESOLUTION FLOW</span>
+
+  [Your Browser] ──1──► [OS DNS Cache]
+        │ (cache miss)
+        ▼
+  [Recursive Resolver] ← 8.8.8.8 or 1.1.1.1
+        │ (cache miss)
+        ├──2──► [Root Nameserver] ──► ".com TLD: ask ns.verisign.com"
+        ├──3──► [.com TLD Server]  ──► "google.com: ask ns1.google.com"
+        └──4──► [Google Auth NS]   ──► "google.com = <span class="gn">142.250.80.46</span> ✓"
+        │
+        └──5──► [Browser] ──► Connect to 142.250.80.46:443
+
+  <span class="am">Recursive</span> = resolver does all the work for you
+  <span class="pu">Iterative</span> = you do each step yourself (rare, for advanced queries)
+</pre></div>
+    <div class="h2">DNS Record Types</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Record</th><th>Purpose</th><th>Example</th><th>Security Note</th></tr></thead>
+      <tbody>
+        <tr><td>A</td><td>Domain → IPv4 address</td><td>google.com → 142.250.80.46</td><td>Most common; targeted in DNS spoofing</td></tr>
+        <tr><td>AAAA</td><td>Domain → IPv6 address</td><td>google.com → 2607:f8b0::200e</td><td>IPv6 equivalent of A record</td></tr>
+        <tr><td>MX</td><td>Mail server for domain</td><td>google.com → smtp.google.com</td><td>Misconfigured MX = email spoofing</td></tr>
+        <tr><td>CNAME</td><td>Domain alias → another domain</td><td>www.example.com → example.com</td><td>CNAME takeover attacks on abandoned records</td></tr>
+        <tr><td>TXT</td><td>Text info (SPF, DKIM, DMARC)</td><td>v=spf1 include:google.com ~all</td><td>SPF/DKIM verify email — prevent spoofing</td></tr>
+        <tr><td>NS</td><td>Authoritative nameservers</td><td>example.com → ns1.google.com</td><td>NS takeover = attacker controls DNS zone</td></tr>
+        <tr><td>PTR</td><td>Reverse DNS: IP → Domain</td><td>142.250.80.46 → google.com</td><td>Used in email reputation and forensics</td></tr>
+        <tr><td>SOA</td><td>Zone authority info</td><td>Serial, refresh, retry times</td><td>Zone transfer (AXFR) exposes all records</td></tr>
+      </tbody>
+    </table></div>
+    <div class="h2">DNS Attacks</div>
+    <div class="attack-grid">
+      <div class="attack-card"><div class="ac-icon">☠️</div><h4>DNS Spoofing / Cache Poisoning</h4><p>Attacker injects false DNS records into resolver cache. You type "bank.com" but get redirected to attacker's fake site.</p></div>
+      <div class="attack-card"><div class="ac-icon">🕳️</div><h4>DNS Tunneling</h4><p>Data encoded inside DNS queries to bypass firewalls. Malware uses this for Command &amp; Control communication or data exfiltration.</p></div>
+      <div class="attack-card"><div class="ac-icon">💥</div><h4>DNS Amplification DDoS</h4><p>Attacker sends small requests with victim's spoofed IP. Servers send large responses to victim, overwhelming their bandwidth.</p></div>
+      <div class="attack-card"><div class="ac-icon">🔄</div><h4>DNS Zone Transfer Attack</h4><p>AXFR queries expose all DNS records of a domain. Misconfigured DNS servers leak internal network maps to anyone who asks.</p></div>
+    </div>
+    <div class="code-block">
+      <div class="code-hdr"><div class="code-dots"><div class="cd cd-r"></div><div class="cd cd-y"></div><div class="cd cd-g"></div></div><span class="code-lang">TERMINAL — DNS TOOLS</span></div>
+      <code>
+<span class="c-cmt"># Query DNS records</span>
+<span class="c-cmd">nslookup</span> google.com
+<span class="c-cmd">dig</span> google.com
+<span class="c-cmd">dig</span> <span class="c-flag">-t MX</span> google.com       <span class="c-cmt"># Query specific record type</span>
+<span class="c-cmd">dig</span> <span class="c-flag">+short</span> google.com    <span class="c-cmt"># Short output</span>
+<span class="c-cmd">host</span> google.com
+
+<span class="c-cmt"># Reverse DNS lookup</span>
+<span class="c-cmd">dig</span> <span class="c-flag">-x</span> 8.8.8.8            <span class="c-cmt"># IP → domain name</span>
+
+<span class="c-cmt"># Zone transfer attempt (security test)</span>
+<span class="c-cmd">dig</span> <span class="c-flag">AXFR</span> @ns1.target.com target.com
+
+<span class="c-cmt"># Windows: flush DNS cache</span>
+<span class="c-cmd">ipconfig /flushdns</span>
+
+<span class="c-cmt"># Check your current DNS resolver</span>
+<span class="c-cmd">cat</span> <span class="c-path">/etc/resolv.conf</span>       <span class="c-cmt"># Linux</span>
+      </code>
+    </div>
+    <div class="yt-section">
+      <div class="yt-header"><div class="yt-badge">▶</div>Recommended Videos — Module 08</div>
+      <div class="yt-grid">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=mpQZVYPuDGU" target="_blank"><div class="yt-channel">Computerphile</div><div class="yt-title">DNS: How the Internet Finds Websites</div><div class="yt-desc">Academic deep dive into DNS resolution — recursive vs iterative explained</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=27r4Bzuj5NQ" target="_blank"><div class="yt-channel">DNS Made Easy</div><div class="yt-title">DNS Records — All Types Explained</div><div class="yt-desc">A, AAAA, MX, CNAME, TXT, NS — every record type with practical examples</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=7lxgpKh_fRY" target="_blank"><div class="yt-channel">NetworkChuck</div><div class="yt-title">DNS Explained — What is DNS?</div><div class="yt-desc">Fun, fast explanation of DNS with security implications and attack demos</div></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODULE 9 ===== -->
+  <div id="mod-m9" class="module">
+    <div class="mod-header">
+      <div class="mod-tags"><span class="tag tag-net">Networking</span><span class="tag tag-int">Intermediate</span></div>
+      <div class="mod-title">09 — NETWORK COMMUNICATION FLOW</div>
+      <div class="mod-sub">Trace the complete lifecycle of a web request — every packet, every handshake, every layer. This is where everything comes together.</div>
+    </div>
+    <div class="box box-def"><div class="box-label">📖 What You'll Understand</div>
+      <p>After this module, you'll be able to explain exactly what happens at the network level when you open a website — from the first DNS query to the last byte of HTML arriving in your browser. This is the knowledge SOC analysts and pentesters use every day.</p>
+    </div>
+    <div class="h2">Complete Request Lifecycle — Browser to Server</div>
+    <div class="diagram"><pre>
+  <span class="cy">STEP-BY-STEP: Opening https://example.com</span>
+
+  <span class="gn">PHASE 1: DNS RESOLUTION</span>
+  ─────────────────────────────────────────────────
+  Browser → OS DNS cache → [Miss]
+  OS → Recursive Resolver (8.8.8.8) → [Miss]
+  Resolver → Root NS → .com TLD NS → example.com Auth NS
+  Auth NS → "93.184.216.34" → Resolver caches → Browser
+
+  <span class="am">PHASE 2: TCP CONNECTION (Port 443)</span>
+  ─────────────────────────────────────────────────
+  Browser → [SYN] ──────────────────► Server
+  Browser ◄ [SYN-ACK] ─────────────── Server
+  Browser → [ACK] ──────────────────► Server
+  ✓ TCP connection established on port 443
+
+  <span class="pu">PHASE 3: TLS HANDSHAKE (HTTPS Encryption)</span>
+  ─────────────────────────────────────────────────
+  Browser → ClientHello (TLS version, cipher suites)
+  Server  ← ServerHello + Certificate (public key)
+  Browser: Verify certificate against trusted CA
+  Browser → Encrypted pre-master secret
+  Both: Generate session keys
+  ✓ Encrypted tunnel established
+
+  <span class="cy">PHASE 4: HTTP REQUEST</span>
+  ─────────────────────────────────────────────────
+  Browser → [Encrypted]:
+  GET / HTTP/1.1
+  Host: example.com
+  User-Agent: Mozilla/5.0...
+  Accept: text/html...
+  Cookie: session=abc123
+
+  <span class="gn">PHASE 5: SERVER RESPONSE</span>
+  ─────────────────────────────────────────────────
+  Server → [Encrypted]:
+  HTTP/1.1 200 OK
+  Content-Type: text/html
+  Set-Cookie: ...
+  [HTML body]
+
+  <span class="am">PHASE 6: BROWSER RENDERS PAGE</span>
+  Parses HTML → Downloads CSS/JS/images → Runs JS → Display
+</pre></div>
+
+    <div class="h2">HTTP Status Codes — Security Relevant</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Code</th><th>Meaning</th><th>Security Note</th></tr></thead>
+      <tbody>
+        <tr><td>200 OK</td><td>Request succeeded</td><td>Normal response</td></tr>
+        <tr><td>301/302</td><td>Redirect</td><td>Open redirect attacks send victims to malicious URLs</td></tr>
+        <tr><td>401 Unauthorized</td><td>Authentication required</td><td>Brute force / credential stuffing targets this</td></tr>
+        <tr><td>403 Forbidden</td><td>Access denied (authenticated but no permission)</td><td>Broken access control if you can bypass this</td></tr>
+        <tr><td>404 Not Found</td><td>Resource doesn't exist</td><td>Scanners trigger 404s while mapping application</td></tr>
+        <tr><td>500 Internal Server Error</td><td>Server-side error</td><td>Reveals stack traces/server info in misconfigured apps</td></tr>
+        <tr><td>503 Service Unavailable</td><td>Server overloaded or down</td><td>Seen during DDoS attacks</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="flow-wrap">
+      <div class="flow-node highlight">Browser</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node highlight">DNS Query</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">TCP SYN</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">TLS Hello</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">HTTP GET</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node ok-node">200 OK ✓</div>
+    </div>
+
+    <div class="yt-section">
+      <div class="yt-header"><div class="yt-badge">▶</div>Recommended Videos — Module 09</div>
+      <div class="yt-grid">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=AlkDbnbv7dk" target="_blank"><div class="yt-channel">ByteByteGo</div><div class="yt-title">What Happens When You Type a URL?</div><div class="yt-desc">System design breakdown of the complete web request lifecycle</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=jhXCTbFnK8o" target="_blank"><div class="yt-channel">Computerphile</div><div class="yt-title">How TLS/HTTPS Works</div><div class="yt-desc">Complete TLS handshake explained with certificates and encryption</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=RsQ1tFLwldY" target="_blank"><div class="yt-channel">freeCodeCamp</div><div class="yt-title">HTTP — Full Tutorial for Beginners</div><div class="yt-desc">HTTP methods, headers, status codes, and request/response cycle</div></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODULE 10 ===== -->
+  <div id="mod-m10" class="module">
+    <div class="mod-header">
+      <div class="mod-tags"><span class="tag tag-net">Networking</span><span class="tag tag-int">Intermediate</span></div>
+      <div class="mod-title">10 — PACKET FUNDAMENTALS</div>
+      <div class="mod-sub">Packets are the atoms of network communication. Understanding their structure is essential for traffic analysis and attack detection.</div>
+    </div>
+    <div class="box box-def"><div class="box-label">📖 Definition</div>
+      <p>A <strong>packet</strong> is a small unit of data transmitted over a network. Large files or web pages are broken into many packets, each independently routed to the destination and reassembled. Every packet has a <strong>header</strong> (control information) and a <strong>payload</strong> (actual data).</p>
+    </div>
+    <div class="diagram"><pre>
+  <span class="cy">ANATOMY OF A NETWORK PACKET</span>
+
+  ┌──────────────────────────────────────────────────────┐
+  │                   ETHERNET FRAME                     │
+  ├─────────────┬─────────────┬────────────────────────┤
+  │ <span class="cy">ETHERNET     │ IP HEADER   │ TCP HEADER</span>            │
+  │ HEADER      │             │                        │
+  │ Dst MAC     │ Version     │ Src Port               │
+  │ Src MAC     │ Header Len  │ Dst Port               │
+  │ EtherType   │ TTL         │ Sequence Number        │
+  │             │ Protocol    │ Ack Number             │
+  │             │ Src IP      │ Flags (SYN/ACK/FIN)    │
+  │             │ Dst IP      │ Window Size            │
+  ├─────────────┴─────────────┴────────────────────────┤
+  │                   <span class="gn">PAYLOAD (DATA)</span>                    │
+  │  "GET /index.html HTTP/1.1\r\n"                    │
+  │  "Host: example.com\r\n"                           │
+  ├────────────────────────────────────────────────────┤
+  │                   FCS (Checksum)                   │
+  └────────────────────────────────────────────────────┘
+  Layer 2 Header    Layer 3     Layer 4     Layer 7 Data
+</pre></div>
+
+    <div class="h2">Key IP Header Fields</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Field</th><th>Size</th><th>Purpose</th><th>Security Relevance</th></tr></thead>
+      <tbody>
+        <tr><td>Source IP</td><td>32 bits</td><td>Where packet came from</td><td>Spoofed in IP spoofing attacks; key for forensics</td></tr>
+        <tr><td>Destination IP</td><td>32 bits</td><td>Where packet is going</td><td>Used in firewall rules and DDoS targeting</td></tr>
+        <tr><td>TTL (Time to Live)</td><td>8 bits</td><td>Max hops before discarding (prevents loops)</td><td>OS fingerprinting — Windows TTL=128, Linux TTL=64</td></tr>
+        <tr><td>Protocol</td><td>8 bits</td><td>Transport protocol (6=TCP, 17=UDP, 1=ICMP)</td><td>Filter traffic by protocol type in firewalls</td></tr>
+        <tr><td>Flags</td><td>3 bits</td><td>Fragmentation control (DF, MF bits)</td><td>Fragmentation attacks exploit reassembly bugs</td></tr>
+        <tr><td>Checksum</td><td>16 bits</td><td>Error detection for header integrity</td><td>Spoofed packets often have invalid checksums</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="code-block">
+      <div class="code-hdr"><div class="code-dots"><div class="cd cd-r"></div><div class="cd cd-y"></div><div class="cd cd-g"></div></div><span class="code-lang">WIRESHARK — PACKET CAPTURE</span></div>
+      <code>
+<span class="c-cmt"># Capture packets on interface (Linux)</span>
+<span class="c-cmd">tcpdump</span> <span class="c-flag">-i eth0</span> <span class="c-flag">-w</span> <span class="c-path">capture.pcap</span>
+
+<span class="c-cmt"># Filter: show only HTTP traffic</span>
+<span class="c-cmd">tcpdump</span> <span class="c-flag">-i eth0 port 80</span>
+
+<span class="c-cmt"># Filter: traffic to/from specific IP</span>
+<span class="c-cmd">tcpdump</span> <span class="c-flag">-i eth0 host 192.168.1.100</span>
+
+<span class="c-cmt"># Wireshark display filters (GUI)</span>
+<span class="c-out">ip.addr == 192.168.1.100</span>      <span class="c-cmt"># Filter by IP</span>
+<span class="c-out">tcp.port == 443</span>                <span class="c-cmt"># Only HTTPS</span>
+<span class="c-out">http.request.method == "POST"</span>  <span class="c-cmt"># POST requests</span>
+<span class="c-out">tcp.flags.syn == 1</span>             <span class="c-cmt"># SYN packets only</span>
+<span class="c-out">dns</span>                            <span class="c-cmt"># All DNS traffic</span>
+
+<span class="c-cmt"># View packet TTL (OS fingerprinting)</span>
+<span class="c-out">ip.ttl == 128</span>   <span class="c-cmt"># Likely Windows</span>
+<span class="c-out">ip.ttl == 64</span>    <span class="c-cmt"># Likely Linux/Mac</span>
+      </code>
+    </div>
+    <div class="yt-section">
+      <div class="yt-header"><div class="yt-badge">▶</div>Recommended Videos — Module 10</div>
+      <div class="yt-grid">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=lb1Dw0elw0Q" target="_blank"><div class="yt-channel">David Bombal</div><div class="yt-title">Wireshark Full Tutorial — Masterclass</div><div class="yt-desc">Complete beginner-to-pro Wireshark guide for network packet analysis</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=TkCSr30UojM" target="_blank"><div class="yt-channel">NetworkChuck</div><div class="yt-title">Wireshark — Capture Network Traffic</div><div class="yt-desc">Hands-on Wireshark tutorial for security professionals and analysts</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=r0l_54thSYU" target="_blank"><div class="yt-channel">Chris Greer</div><div class="yt-title">Wireshark for Beginners — Packet Analysis</div><div class="yt-desc">Real investigation techniques using Wireshark packet forensics</div></a>
+      </div>
+    </div>
+  </div>
+  <!-- ===== MODULE 11 ===== -->
+  <div id="mod-m11" class="module">
+    <div class="mod-header">
+      <div class="mod-tags"><span class="tag tag-net">Networking</span><span class="tag tag-def">Blue Team</span></div>
+      <div class="mod-title">11 — NETWORK TRAFFIC ANALYSIS</div>
+      <div class="mod-sub">The core skill of every SOC analyst and network defender — reading traffic to find anomalies, attacks, and evidence.</div>
+    </div>
+    <div class="box box-def"><div class="box-label">📖 Definition</div>
+      <p><strong>Network Traffic Analysis (NTA)</strong> is the process of capturing, recording, and analyzing network packet data to detect security threats, performance issues, or policy violations. Tools like Wireshark and tcpdump are used to examine traffic in real time or from recorded packet captures (.pcap files).</p>
+    </div>
+    <div class="h2">Packet Capture Tools</div>
+    <div class="card-grid">
+      <div class="card"><div class="card-ico">🦈</div><h4>Wireshark</h4><p>Industry-standard GUI packet analyzer. Capture live traffic or open .pcap files. Powerful filters, protocol dissectors, follow TCP streams.</p></div>
+      <div class="card"><div class="card-ico">💻</div><h4>tcpdump</h4><p>Command-line packet capture. Lightweight, built into Linux. Perfect for servers without GUI. Saves to .pcap for Wireshark analysis.</p></div>
+      <div class="card"><div class="card-ico">🔍</div><h4>Zeek (Bro)</h4><p>Network analysis framework. Generates structured logs from traffic. Used in enterprise SOCs and threat hunting.</p></div>
+      <div class="card"><div class="card-ico">⚡</div><h4>Suricata / Snort</h4><p>IDS/IPS engines that analyze traffic against rule signatures. Detect known attack patterns in real time.</p></div>
+    </div>
+    <div class="h2">Recognizing Suspicious Traffic Patterns</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Traffic Pattern</th><th>Possible Indicator</th><th>Investigation Step</th></tr></thead>
+      <tbody>
+        <tr><td>Hundreds of SYN packets to port 22/23/3389 from one IP</td><td>Brute-force attack or SSH/RDP scanning</td><td>Block source IP; check if any logins succeeded</td></tr>
+        <tr><td>Single host sending to every IP in subnet</td><td>Network scanner / Nmap sweep</td><td>Identify device; is it authorized? Alert if not</td></tr>
+        <tr><td>Unusually large DNS queries or TXT record lookups</td><td>DNS tunneling / data exfiltration</td><td>Capture DNS traffic; look for encoded data in queries</td></tr>
+        <tr><td>Outbound connections to unusual ports (e.g., 4444, 1337)</td><td>Malware C2 (Command &amp; Control) communication</td><td>Block; isolate host; investigate with EDR</td></tr>
+        <tr><td>Duplicate ARP responses for gateway IP</td><td>ARP spoofing / MITM attack in progress</td><td>Enable Dynamic ARP Inspection on switch</td></tr>
+        <tr><td>Large data transfer to external IP after hours</td><td>Data exfiltration by insider or malware</td><td>Capture traffic; check DLP alerts; isolate system</td></tr>
+      </tbody>
+    </table></div>
+    <div class="diagram"><pre>
+  <span class="cy">NORMAL vs SUSPICIOUS TRAFFIC — Analyst View</span>
+
+  <span class="gn">NORMAL:</span>
+  10:23:01  192.168.1.50  → 8.8.8.8       DNS Query (google.com)
+  10:23:01  8.8.8.8       → 192.168.1.50  DNS Response (142.250.80.46)
+  10:23:01  192.168.1.50  → 142.250.80.46 TCP SYN port 443
+  10:23:01  142.250.80.46 → 192.168.1.50  TCP SYN-ACK
+  10:23:02  HTTPS data flowing normally
+
+  <span class="rd">SUSPICIOUS:</span>
+  10:45:00  10.0.0.99 → 10.0.0.1   SYN port 21     ← Port scan
+  10:45:00  10.0.0.99 → 10.0.0.1   SYN port 22     ← Port scan
+  10:45:00  10.0.0.99 → 10.0.0.1   SYN port 23     ← Port scan
+  10:45:00  10.0.0.99 → 10.0.0.1   SYN port 80     ← Port scan
+  [Pattern: Sequential port scanning from single source]
+  <span class="am">ACTION: Investigate 10.0.0.99, check authorization</span>
+</pre></div>
+    <div class="code-block">
+      <div class="code-hdr"><div class="code-dots"><div class="cd cd-r"></div><div class="cd cd-y"></div><div class="cd cd-g"></div></div><span class="code-lang">TCPDUMP — SECURITY ANALYSIS COMMANDS</span></div>
+      <code>
+<span class="c-cmt"># Capture all traffic on interface</span>
+<span class="c-cmd">tcpdump</span> <span class="c-flag">-i eth0 -w</span> <span class="c-path">capture.pcap</span>
+
+<span class="c-cmt"># Show live HTTP requests</span>
+<span class="c-cmd">tcpdump</span> <span class="c-flag">-i eth0 -A 'port 80'</span>
+
+<span class="c-cmt"># Detect port scans (many SYNs, no ACK)</span>
+<span class="c-cmd">tcpdump</span> <span class="c-flag">'tcp[13] == 2'</span>  <span class="c-cmt"># SYN flag only</span>
+
+<span class="c-cmt"># Monitor DNS queries (detect DNS tunneling)</span>
+<span class="c-cmd">tcpdump</span> <span class="c-flag">-i eth0 port 53 -n</span>
+
+<span class="c-cmt"># Capture traffic from specific suspicious host</span>
+<span class="c-cmd">tcpdump</span> <span class="c-flag">-i eth0 host 10.0.0.99 -w</span> <span class="c-path">suspect.pcap</span>
+
+<span class="c-cmt"># Show ARP traffic (detect ARP spoofing)</span>
+<span class="c-cmd">tcpdump</span> <span class="c-flag">-i eth0 arp</span>
+      </code>
+    </div>
+    <div class="yt-section">
+      <div class="yt-header"><div class="yt-badge">▶</div>Recommended Videos — Module 11</div>
+      <div class="yt-grid">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=lb1Dw0elw0Q" target="_blank"><div class="yt-channel">David Bombal</div><div class="yt-title">Wireshark — Complete Traffic Analysis</div><div class="yt-desc">Full course on using Wireshark to detect attacks and analyze network traffic</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=4_7A8Ikp5Cc" target="_blank"><div class="yt-channel">John Hammond</div><div class="yt-title">Network Forensics — Analyzing Pcap Files</div><div class="yt-desc">Real incident investigation walkthrough using Wireshark and packet captures</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=s_gy4Sm5e8E" target="_blank"><div class="yt-channel">HackerSploit</div><div class="yt-title">Network Traffic Analysis with Wireshark</div><div class="yt-desc">Security-focused traffic analysis for SOC analysts and threat hunters</div></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODULE 12 ===== -->
+  <div id="mod-m12" class="module">
+    <div class="mod-header">
+      <div class="mod-tags"><span class="tag tag-net">Networking</span><span class="tag tag-int">Intermediate</span></div>
+      <div class="mod-title">12 — NETWORK ARCHITECTURE</div>
+      <div class="mod-sub">How real networks are designed — topologies, enterprise layouts, and why architecture decisions directly impact security posture.</div>
+    </div>
+    <div class="h2">Network Topologies</div>
+    <div class="diagram"><pre>
+  <span class="cy">STAR TOPOLOGY</span> ← Most Common for LANs
+  ┌─────────────────────────┐
+  │        [Switch]          │
+  │       /   |   \          │
+  │    PC1   PC2   PC3       │
+  │         PC4              │
+  └─────────────────────────┘
+  All devices connect to central switch/hub
+  Single point of failure = the switch
+  Easy to manage; most office networks
+
+  <span class="gn">MESH TOPOLOGY</span> ← Used in Internet/WAN
+  ┌──────────────────────────┐
+  │  R1 ──── R2 ──── R3      │
+  │   \  ╲ /  \  /  /       │
+  │    ╲  X    X  ╱          │
+  │    R4 ──── R5 ──── R6   │
+  └──────────────────────────┘
+  Every node connected to multiple others
+  Highly redundant; internet routing uses this
+  Multiple paths = no single point of failure
+
+  <span class="am">BUS TOPOLOGY</span> (Legacy)
+  ┌──────────────────────────────────┐
+  │  PC1 ─┬─ PC2 ─┬─ PC3 ─┬─ PC4  │
+  │        ╰───────╰───────╰──cable │
+  └──────────────────────────────────┘
+  All share single cable; collision prone
+  One break = entire network down
+</pre></div>
+    <div class="h2">Enterprise Network Architecture</div>
+    <div class="diagram"><pre>
+  <span class="cy">ENTERPRISE NETWORK — 3-TIER MODEL</span>
+
+  ┌─────────────────────────────────────────────┐
+  │                  INTERNET                   │
+  └───────────────────┬─────────────────────────┘
+                      │
+              ┌───────▼──────┐
+              │  EDGE ROUTER │ ← BGP routing, ISP connection
+              └───────┬──────┘
+                      │
+  ┌───────────────────▼──────────────────────────┐
+  │         <span class="rd">PERIMETER / DMZ ZONE</span>                │
+  │  ┌─────────────┐   ┌──────────────────────┐ │
+  │  │  Web Server │   │  Email / DNS Server  │ │
+  │  └─────────────┘   └──────────────────────┘ │
+  │            External Firewall                 │
+  └───────────────────┬──────────────────────────┘
+                      │
+  ┌───────────────────▼──────────────────────────┐
+  │         <span class="am">CORE NETWORK (Internal)</span>               │
+  │  ┌──────────────────────────────────────┐   │
+  │  │           Core Switch                │   │
+  │  └──┬────────┬────────┬────────┬───────┘   │
+  │     │        │        │        │            │
+  │  VLAN_HR  VLAN_IT  VLAN_FIN  VLAN_OPS      │
+  │  10.1.0/24 10.2.0/24 10.3.0/24 10.4.0/24  │
+  │            Internal Firewall between VLANs  │
+  └──────────────────────────────────────────────┘
+  <span class="gn">Security Model:</span> Defense in Depth — multiple security layers
+</pre></div>
+    <div class="h2">VLANs — Virtual LANs</div>
+    <div class="box box-def"><div class="box-label">📖 What is a VLAN?</div>
+      <p>A <strong>VLAN (Virtual LAN)</strong> logically segments a physical network into multiple isolated networks. Devices in different VLANs cannot communicate directly — they must go through a router or firewall. This is a core security control in enterprise environments.</p>
+    </div>
+    <div class="box box-sec"><div class="box-label">🔐 Security Architecture Principles</div>
+      <p><strong>Segmentation:</strong> Isolate sensitive systems (HR, Finance, Security cameras) in separate VLANs. <strong>DMZ:</strong> Public-facing servers in DMZ separate from internal network. <strong>Zero Trust:</strong> Never trust, always verify — even internal traffic. <strong>Least Access:</strong> Firewall rules allow only necessary communication.</p>
+    </div>
+    <div class="yt-section">
+      <div class="yt-header"><div class="yt-badge">▶</div>Recommended Videos — Module 12</div>
+      <div class="yt-grid">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=jC6MJTh9fRE" target="_blank"><div class="yt-channel">PowerCert Animated</div><div class="yt-title">VLANs Explained — Network Segmentation</div><div class="yt-desc">Visual animated explanation of VLANs and why they matter for security</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=TNQsmPf24go" target="_blank"><div class="yt-channel">NetworkChuck</div><div class="yt-title">Network Segmentation — Full Tutorial</div><div class="yt-desc">How to design and implement network segmentation for security</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=qiQR5rTSshw" target="_blank"><div class="yt-channel">Professor Messer</div><div class="yt-title">Network Topologies Explained</div><div class="yt-desc">All network topology types with diagrams and real-world applications</div></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODULE 13 ===== -->
+  <div id="mod-m13" class="module">
+    <div class="mod-header">
+      <div class="mod-tags"><span class="tag tag-net">Networking</span><span class="tag tag-int">Intermediate</span></div>
+      <div class="mod-title">13 — NAT &amp; ROUTING</div>
+      <div class="mod-sub">How traffic moves between different networks — and how NAT keeps your private IP hidden from the internet.</div>
+    </div>
+    <div class="box box-def"><div class="box-label">📖 What is NAT?</div>
+      <p><strong>NAT (Network Address Translation)</strong> allows multiple devices with private IP addresses to share a single public IP address when accessing the internet. Your router performs NAT — translating your device's 192.168.1.x address to your ISP-assigned public IP before packets leave your network.</p>
+    </div>
+    <div class="diagram"><pre>
+  <span class="cy">HOW NAT WORKS</span>
+
+  Private Network              Router/NAT          Internet
+  ─────────────────            ─────────────       ────────────
+
+  PC1: 192.168.1.10   ──┐
+  PC2: 192.168.1.11   ──┼──► NAT Translation ──► Public IP: 203.0.113.50
+  PC3: 192.168.1.12   ──┘     Table:              → Google
+  Phone: 192.168.1.20 ─┘
+                              ┌────────────────────────────────┐
+                              │ Private IP:Port → Public IP:Port│
+                              │ 192.168.1.10:5000 → 203.0.113.50:41234│
+                              │ 192.168.1.11:3000 → 203.0.113.50:41235│
+                              └────────────────────────────────┘
+  
+  <span class="gn">Google sees:</span> ONE request from 203.0.113.50
+  <span class="gn">Your ISP sees:</span> One public IP for your whole house
+  <span class="pu">Security benefit:</span> Internal IPs hidden from internet (obscurity)
+  <span class="rd">Security risk:</span> Once attacker is inside, NAT provides NO protection
+</pre></div>
+    <div class="h2">Routing Basics</div>
+    <div class="box box-def"><div class="box-label">📖 What is Routing?</div>
+      <p>A <strong>router</strong> examines every packet's destination IP and consults its <strong>routing table</strong> to determine the best next hop. This process, repeated at every router along the path, guides packets from source to destination across the internet.</p>
+    </div>
+    <div class="diagram"><pre>
+  <span class="cy">ROUTING TABLE — Router's Decision Engine</span>
+
+  $ route -n    (Linux routing table example)
+
+  Destination    Gateway        Genmask         Interface
+  0.0.0.0        192.168.1.1    0.0.0.0         eth0  ← Default gateway (internet)
+  10.0.0.0       0.0.0.0        255.0.0.0       eth1  ← Direct: 10.x.x.x network
+  192.168.1.0    0.0.0.0        255.255.255.0   eth0  ← Direct: local network
+  192.168.2.0    10.0.0.1       255.255.255.0   eth1  ← Route to remote subnet
+
+  Decision logic:
+  1. Check routing table for matching destination
+  2. Most specific match wins (/32 beats /24 beats /0)
+  3. Send packet to next-hop gateway
+  4. Repeat at each router until destination reached
+
+  <span class="am">Default Gateway</span> = router that handles all unknown destinations
+  <span class="am">0.0.0.0/0</span> = "everything else" → send to ISP
+</pre></div>
+    <div class="h2">Types of NAT</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Type</th><th>Description</th><th>Common Use</th></tr></thead>
+      <tbody>
+        <tr><td>Static NAT</td><td>One-to-one mapping: one private IP = one public IP</td><td>Servers that need consistent public IP (web, mail)</td></tr>
+        <tr><td>Dynamic NAT</td><td>Maps private IPs to pool of public IPs dynamically</td><td>Enterprise with many public IPs</td></tr>
+        <tr><td>PAT (NAT Overload)</td><td>Many private IPs share one public IP (using different ports)</td><td>Home routers — most common type</td></tr>
+        <tr><td>Port Forwarding</td><td>Incoming traffic on public port → specific internal host:port</td><td>Hosting game server, self-hosted website</td></tr>
+      </tbody>
+    </table></div>
+    <div class="box box-warn"><div class="box-label">⚠️ Security Note — Port Forwarding Risk</div>
+      <p>Port forwarding punches a hole through NAT — exposing an internal service directly to the internet. Every exposed port is a potential attack surface. Use VPN instead of port forwarding for remote access when possible. If you must port forward, use strong authentication and keep the service patched.</p>
+    </div>
+    <div class="yt-section">
+      <div class="yt-header"><div class="yt-badge">▶</div>Recommended Videos — Module 13</div>
+      <div class="yt-grid">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=FTUV0t6JaDA" target="_blank"><div class="yt-channel">PowerCert Animated</div><div class="yt-title">NAT Explained — Network Address Translation</div><div class="yt-desc">Crystal-clear animated explanation of all NAT types with diagrams</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=AzXys5kxpAM" target="_blank"><div class="yt-channel">NetworkChuck</div><div class="yt-title">Routing Explained — How Packets Travel</div><div class="yt-desc">Routing tables, default gateways, and how the internet routes packets</div></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODULE 14 ===== -->
+  <div id="mod-m14" class="module">
+    <div class="mod-header">
+      <div class="mod-tags"><span class="tag tag-net">Networking</span><span class="tag tag-def">Blue Team</span></div>
+      <div class="mod-title">14 — FIREWALLS &amp; NETWORK SECURITY</div>
+      <div class="mod-sub">The gatekeepers of network security — how firewalls work, the different types, and why they're not enough alone.</div>
+    </div>
+    <div class="box box-def"><div class="box-label">📖 Definition</div>
+      <p>A <strong>firewall</strong> is a network security device (hardware or software) that monitors incoming and outgoing network traffic and decides whether to allow or block based on a defined set of security rules. It creates a barrier between trusted internal networks and untrusted external networks.</p>
+    </div>
+    <div class="h2">Firewall Types — Evolution</div>
+    <div class="diagram"><pre>
+  <span class="cy">FIREWALL EVOLUTION</span>
+
+  <span class="am">1. Packet Filtering Firewall (Layer 3/4)</span>
+  Rules: IF src_ip=X AND dst_port=80 → ALLOW
+  Checks: IP, port, protocol only
+  Weakness: Can't see context — stateless
+  Example: iptables basic rules
+
+  <span class="gn">2. Stateful Inspection Firewall (Layer 4)</span>
+  Tracks connection states (NEW, ESTABLISHED, RELATED)
+  Knows if packet is part of legitimate session
+  Much more secure than packet filtering
+  Example: Most modern firewalls include this
+
+  <span class="pu">3. Application-Layer (Proxy) Firewall (Layer 7)</span>
+  Understands application protocols (HTTP, FTP, DNS)
+  Can inspect actual content, not just headers
+  Slowest but most intelligent
+  Example: Squid proxy, Blue Coat
+
+  <span class="cy">4. Next-Generation Firewall (NGFW)</span>
+  All of the above PLUS:
+  - Deep Packet Inspection (DPI)
+  - Application awareness (identify app, not just port)
+  - IDS/IPS built in
+  - SSL inspection (decrypt HTTPS to inspect)
+  - User identity awareness
+  Example: Palo Alto, Fortinet, CheckPoint
+
+  <span class="rd">5. WAF — Web Application Firewall</span>
+  Specifically protects web apps at Layer 7
+  Blocks SQLi, XSS, CSRF, path traversal
+  Example: Cloudflare WAF, AWS WAF, ModSecurity
+</pre></div>
+
+    <div class="h2">Firewall Rule Logic</div>
+    <div class="code-block">
+      <div class="code-hdr"><div class="code-dots"><div class="cd cd-r"></div><div class="cd cd-y"></div><div class="cd cd-g"></div></div><span class="code-lang">IPTABLES — LINUX FIREWALL RULES</span></div>
+      <code>
+<span class="c-cmt"># View current rules</span>
+<span class="c-cmd">iptables</span> <span class="c-flag">-L -n -v</span>
+
+<span class="c-cmt"># Allow established/related connections</span>
+<span class="c-cmd">iptables</span> <span class="c-flag">-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT</span>
+
+<span class="c-cmt"># Allow SSH from specific IP only</span>
+<span class="c-cmd">iptables</span> <span class="c-flag">-A INPUT -p tcp --dport 22 -s 192.168.1.50 -j ACCEPT</span>
+
+<span class="c-cmt"># Allow HTTPS from anywhere</span>
+<span class="c-cmd">iptables</span> <span class="c-flag">-A INPUT -p tcp --dport 443 -j ACCEPT</span>
+
+<span class="c-cmt"># Drop Telnet (never should be open)</span>
+<span class="c-cmd">iptables</span> <span class="c-flag">-A INPUT -p tcp --dport 23 -j DROP</span>
+
+<span class="c-cmt"># Block specific attacker IP</span>
+<span class="c-cmd">iptables</span> <span class="c-flag">-A INPUT -s 185.220.101.45 -j DROP</span>
+
+<span class="c-cmt"># Default deny everything else (golden rule)</span>
+<span class="c-cmd">iptables</span> <span class="c-flag">-P INPUT DROP</span>
+<span class="c-cmd">iptables</span> <span class="c-flag">-P FORWARD DROP</span>
+      </code>
+    </div>
+
+    <div class="h2">Network Segmentation</div>
+    <div class="diagram"><pre>
+  <span class="cy">DEFENSE-IN-DEPTH — Layered Security</span>
+
+  [Internet]
+      │
+  ┌───▼────────────────────┐
+  │   EDGE FIREWALL         │ ← Blocks obvious attacks
+  └───┬────────────────────┘
+      │
+  ┌───▼────────────────────┐
+  │   DMZ (Demilitarized)  │ ← Public servers isolated here
+  │   Web | Mail | DNS     │   If compromised, can't reach internal
+  └───┬────────────────────┘
+      │
+  ┌───▼────────────────────┐
+  │   INTERNAL FIREWALL     │ ← Stricter rules, IPS enabled
+  └───┬────────────────────┘
+      │
+  ┌───▼────────────────────┐
+  │   CORE INTERNAL NETWORK │
+  │   VLANs: HR|IT|Finance  │ ← VLANs isolate departments
+  └────────────────────────┘
+
+  <span class="gn">Philosophy:</span> Assume breach. Even if attacker gets through
+  layer 1, subsequent layers limit damage (blast radius).
+</pre></div>
+    <div class="yt-section">
+      <div class="yt-header"><div class="yt-badge">▶</div>Recommended Videos — Module 14</div>
+      <div class="yt-grid">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=kDEX1HXybrU" target="_blank"><div class="yt-channel">PowerCert Animated</div><div class="yt-title">Firewall Explained — All Types</div><div class="yt-desc">Packet filtering, stateful, proxy, and NGFW — all explained with animations</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=9Tq09DYHM0Y" target="_blank"><div class="yt-channel">NetworkChuck</div><div class="yt-title">pfSense Firewall Setup Tutorial</div><div class="yt-desc">Set up a real open-source firewall — hands-on lab project</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=jmMXZXKBhO4" target="_blank"><div class="yt-channel">Professor Messer</div><div class="yt-title">Firewalls and Network Security</div><div class="yt-desc">CompTIA Security+ level firewall types, DMZ, and network segmentation</div></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODULE 15 ===== -->
+  <div id="mod-m15" class="module">
+    <div class="mod-header">
+      <div class="mod-tags"><span class="tag tag-net">Networking</span><span class="tag tag-def">Blue Team</span></div>
+      <div class="mod-title">15 — NETWORK MONITORING &amp; LOGGING</div>
+      <div class="mod-sub">You can't defend what you can't see. Network monitoring and logging are how security teams detect attacks in real time.</div>
+    </div>
+    <div class="box box-def"><div class="box-label">📖 Definition</div>
+      <p><strong>Network monitoring</strong> is the continuous observation of a network for performance, availability, and security events. <strong>Network logging</strong> is recording network events (connections, alerts, traffic) for later analysis. Together, they form the visibility layer that SOC analysts rely on.</p>
+    </div>
+    <div class="h2">What to Monitor</div>
+    <div class="card-grid">
+      <div class="card"><div class="card-ico">🔥</div><h4>Firewall Logs</h4><p>Every allowed and denied connection. Shows attack attempts, blocked threats, and policy violations. First place analysts look.</p></div>
+      <div class="card"><div class="card-ico">🚨</div><h4>IDS/IPS Alerts</h4><p>Signature matches against known attack patterns. Snort/Suricata rules fire when attack traffic detected. Critical alerts need immediate triage.</p></div>
+      <div class="card"><div class="card-ico">🌐</div><h4>DNS Logs</h4><p>Every domain lookup. Reveals C2 communication, malicious domain access, and DNS tunneling. Often overlooked but valuable.</p></div>
+      <div class="card"><div class="card-ico">🔀</div><h4>NetFlow / IPFIX</h4><p>Summary of all network flows (source, destination, bytes, duration). Detects anomalies without full packet content.</p></div>
+      <div class="card"><div class="card-ico">📡</div><h4>DHCP Logs</h4><p>Which MAC got which IP at what time. Critical for identifying rogue devices and attributing traffic to specific machines.</p></div>
+      <div class="card"><div class="card-ico">🕵️</div><h4>Proxy / Web Logs</h4><p>All HTTP/HTTPS requests from internal users. Reveals malware downloads, C2 beaconing, and data exfiltration.</p></div>
+    </div>
+    <div class="h2">IDS vs IPS</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Feature</th><th>IDS (Intrusion Detection System)</th><th>IPS (Intrusion Prevention System)</th></tr></thead>
+      <tbody>
+        <tr><td>Primary Action</td><td>DETECT and ALERT only — passive</td><td>DETECT and BLOCK automatically — active</td></tr>
+        <tr><td>Position in Network</td><td>Out-of-band (copy of traffic via SPAN port)</td><td>Inline — sits in the traffic path</td></tr>
+        <tr><td>Failure Mode</td><td>If IDS fails, traffic still flows normally</td><td>If IPS fails, can block all traffic (fail-open/closed)</td></tr>
+        <tr><td>False Positive Risk</td><td>Low risk — only generates alerts</td><td>High risk — can block legitimate traffic</td></tr>
+        <tr><td>Response Speed</td><td>Humans must respond to alerts</td><td>Automated response in milliseconds</td></tr>
+        <tr><td>Tools</td><td>Snort (detection mode), Zeek/Bro</td><td>Snort (prevention mode), Suricata IPS, Palo Alto</td></tr>
+        <tr><td>Best Analogy</td><td>Security CAMERA — watches and records</td><td>Security GUARD — watches and physically stops</td></tr>
+      </tbody>
+    </table></div>
+    <div class="h2">SIEM — Central Monitoring Platform</div>
+    <div class="diagram"><pre>
+  <span class="cy">SIEM ARCHITECTURE</span>
+
+  DATA SOURCES → COLLECTION → CORRELATION → ALERTS → RESPONSE
+  ─────────────────────────────────────────────────────────────
+
+  Firewall Logs ──┐
+  IDS/IPS Alerts ─┤
+  DNS Logs ───────┼──► <span class="am">Log Collector</span> ──► <span class="cy">SIEM Engine</span> ──► <span class="rd">ALERT</span>
+  DHCP Logs ──────┤     (Syslog,              (Splunk,       │
+  Windows Events ─┤      Beats,                QRadar,       ▼
+  Web Proxy Logs ─┘      FluentD)              Sentinel)  <span class="gn">SOC Analyst</span>
+
+  SIEM does:
+  ✓ Aggregate logs from all sources into one place
+  ✓ Normalize different log formats
+  ✓ Correlate events across multiple sources
+  ✓ Detect attack patterns that span multiple systems
+  ✓ Generate prioritized alerts
+  ✓ Retain logs for compliance and forensics
+
+  <span class="am">Example correlation:</span>
+  10:23 — Firewall: blocked 50 SSH attempts from 185.x.x.x
+  10:25 — IDS:      SSH brute force signature triggered
+  10:27 — Auth log: Successful SSH login from 185.x.x.x ← ALERT!
+  SIEM correlates all 3 → HIGH severity alert for SOC
+</pre></div>
+    <div class="yt-section">
+      <div class="yt-header"><div class="yt-badge">▶</div>Recommended Videos — Module 15</div>
+      <div class="yt-grid">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=MHikSwRDIvI" target="_blank"><div class="yt-channel">Gerald Auger</div><div class="yt-title">Splunk for Beginners — SIEM Tutorial</div><div class="yt-desc">Learn the #1 SIEM tool from scratch — searching, dashboards, alerts</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=jmMXZXKBhO4" target="_blank"><div class="yt-channel">Professor Messer</div><div class="yt-title">IDS vs IPS — What's the Difference?</div><div class="yt-desc">Clear explanation of intrusion detection vs prevention with real examples</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=ioFqn5VCbEo" target="_blank"><div class="yt-channel">John Hammond</div><div class="yt-title">SOC Analyst — Network Alert Investigation</div><div class="yt-desc">Real SOC analyst workflow for triaging and investigating network alerts</div></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODULE 16 ===== -->
+  <div id="mod-m16" class="module">
+    <div class="mod-header">
+      <div class="mod-tags"><span class="tag tag-att">Attack Techniques</span><span class="tag tag-int">Intermediate</span></div>
+      <div class="mod-title">16 — NETWORK ATTACKS OVERVIEW</div>
+      <div class="mod-sub">How attackers abuse networking — port scanning, man-in-the-middle, ARP spoofing, DNS poisoning, and DDoS. Know the attack to build the defense.</div>
+    </div>
+    <div class="box box-warn"><div class="box-label">⚠️ Ethical Disclaimer</div>
+      <p>This module describes attacks for <strong>educational purposes only</strong>. Understanding how attacks work is essential for defenders. All techniques described here should only be practiced in <strong>authorized lab environments</strong> (HackTheBox, TryHackMe, your own VMs). Using these techniques against systems you don't own is illegal.</p>
+    </div>
+    <div class="h2">1. Port Scanning</div>
+    <div class="box box-def"><div class="box-label">📖 What It Is</div>
+      <p>Port scanning sends packets to target ports to determine which are open (running services), closed (no service), or filtered (firewall). It's the first step in almost every network attack — attackers map what's available before deciding what to exploit.</p>
+    </div>
+    <div class="code-block">
+      <div class="code-hdr"><div class="code-dots"><div class="cd cd-r"></div><div class="cd cd-y"></div><div class="cd cd-g"></div></div><span class="code-lang">NMAP — PORT SCANNING</span></div>
+      <code>
+<span class="c-cmt"># Basic TCP scan (top 1000 ports)</span>
+<span class="c-cmd">nmap</span> 192.168.1.1
+
+<span class="c-cmt"># Detect service versions and OS</span>
+<span class="c-cmd">nmap</span> <span class="c-flag">-sV -O</span> 192.168.1.1
+
+<span class="c-cmt"># Full scan all 65535 ports</span>
+<span class="c-cmd">nmap</span> <span class="c-flag">-p-</span> 192.168.1.1
+
+<span class="c-cmt"># Stealth SYN scan (doesn't complete handshake)</span>
+<span class="c-cmd">nmap</span> <span class="c-flag">-sS</span> 192.168.1.1
+
+<span class="c-cmt"># Scan entire subnet</span>
+<span class="c-cmd">nmap</span> <span class="c-flag">-sn</span> 192.168.1.0/24   <span class="c-cmt"># Ping sweep</span>
+
+<span class="c-cmt"># Example output:</span>
+<span class="c-out">PORT     STATE  SERVICE    VERSION</span>
+<span class="c-out">22/tcp   open   ssh        OpenSSH 8.2</span>
+<span class="c-out">80/tcp   open   http       nginx 1.18</span>
+<span class="c-out">443/tcp  open   https</span>
+<span class="c-out">3306/tcp open   mysql      MySQL 8.0  ← Should NOT be exposed!</span>
+      </code>
+    </div>
+    <div class="box box-sec"><div class="box-label">🔐 Defense</div>
+      <p>Host-based firewalls block scan attempts. IDS signatures detect Nmap scan patterns. Honeypots alert when scanned. Monitor logs for sequential port connection attempts from single source.</p>
+    </div>
+
+    <div class="h2">2. Man-in-the-Middle (MITM) Attack</div>
+    <div class="diagram"><pre>
+  <span class="cy">MAN-IN-THE-MIDDLE ATTACK</span>
+
+  NORMAL:   Alice ──────────────────────────► Bob
+
+  ATTACKED: Alice ──► <span class="rd">ATTACKER</span> ──────────────► Bob
+                      (intercepts,                (receives
+                       reads/modifies)             modified data)
+
+  <span class="am">Common MITM Techniques:</span>
+  1. ARP Spoofing     — Poison ARP cache, intercept LAN traffic
+  2. Evil Twin AP     — Fake Wi-Fi hotspot that proxies your traffic
+  3. SSL Stripping    — Downgrade HTTPS to HTTP (use HSTS to prevent)
+  4. BGP Hijacking    — Reroute internet traffic at ISP level
+  5. DNS Spoofing     — Redirect domains to attacker-controlled server
+
+  <span class="gn">What attacker can see/do:</span>
+  - Read all unencrypted HTTP traffic (passwords, cookies)
+  - Inject malicious content into web pages
+  - Steal session cookies to impersonate victim
+  - Intercept credentials even on "secure" networks
+</pre></div>
+
+    <div class="h2">3. ARP Spoofing / Poisoning</div>
+    <div class="diagram"><pre>
+  <span class="cy">ARP SPOOFING EXPLAINED</span>
+
+  <span class="gn">Normal ARP:</span>
+  PC asks: "Who has IP 192.168.1.1? Tell me your MAC"
+  Router: "192.168.1.1 is at MAC AA:BB:CC:DD:EE:FF"
+  PC stores: 192.168.1.1 → AA:BB:CC:DD:EE:FF in ARP cache
+
+  <span class="rd">ARP Spoofing Attack:</span>
+  Attacker sends FAKE ARP replies (without being asked):
+  → To PC:     "192.168.1.1 (Router) is at MY MAC 11:22:33:44:55:66"
+  → To Router: "192.168.1.100 (PC) is at MY MAC 11:22:33:44:55:66"
+
+  Result:
+  PC → [Attacker] → Router    (attacker intercepts all PC traffic)
+  Router → [Attacker] → PC    (full MITM established)
+
+  <span class="am">Detection:</span> Watch for duplicate ARP replies, IP-MAC conflicts
+  <span class="gn">Prevention:</span> Dynamic ARP Inspection (DAI) on managed switches
+                Static ARP entries for critical devices
+</pre></div>
+
+    <div class="h2">4. DNS Poisoning (Cache Poisoning)</div>
+    <div class="diagram"><pre>
+  <span class="cy">DNS CACHE POISONING</span>
+
+  <span class="gn">Normal flow:</span>
+  User → Resolver → Google NS → "google.com = 142.250.80.46" ✓
+
+  <span class="rd">Attack flow:</span>
+  User → Resolver → [Resolver asks root NS]
+  Attacker floods resolver with FAKE responses:
+  "google.com = <span class="rd">10.0.0.99</span> (attacker's server)"
+  If attacker's fake response arrives before real one:
+  Resolver caches the WRONG IP
+  ALL users using this resolver → redirected to attacker's site
+
+  <span class="am">Impact:</span>
+  - Phishing: Fake login page steals credentials
+  - Malware distribution: Fake site serves malware
+  - Full invisibility: User sees correct URL in browser
+
+  <span class="gn">Prevention:</span> DNSSEC (cryptographically signs DNS records)
+               Use trusted DNS (1.1.1.1, 8.8.8.8 with DoH/DoT)
+</pre></div>
+
+    <div class="h2">5. DDoS — Distributed Denial of Service</div>
+    <div class="diagram"><pre>
+  <span class="cy">DDOS ATTACK ARCHITECTURE</span>
+
+  <span class="rd">Attacker</span>
+      │ (Commands via C2 server)
+      │
+  ┌───▼──────────────────────────────────────────┐
+  │        BOTNET (thousands of compromised PCs)  │
+  │  Bot1  Bot2  Bot3  Bot4  Bot5  Bot6  Bot7... │
+  └───┬──────────────────────────────────────────┘
+      │ (Millions of requests per second)
+      ▼
+  <span class="rd">TARGET SERVER</span> — overwhelmed — crashes — service down
+
+  <span class="am">Common DDoS Types:</span>
+  Volumetric    — Saturate bandwidth (UDP flood, ICMP flood)
+  Protocol      — Exhaust server resources (SYN flood)
+  Application   — Target Layer 7 (HTTP GET flood, Slowloris)
+
+  <span class="gn">Notable attacks:</span>
+  GitHub 2018: 1.35 Tbps (memcached amplification)
+  AWS 2020:    2.3 Tbps (largest recorded)
+
+  <span class="gn">Defenses:</span>
+  - Cloudflare / Akamai DDoS protection
+  - Rate limiting and SYN cookies
+  - BGP blackholing
+  - Anycast routing to distribute traffic
+</pre></div>
+
+    <div class="h2">Quick Attack Reference</div>
+    <div class="attack-grid">
+      <div class="attack-card"><div class="ac-icon">🗺️</div><h4>Port Scanning</h4><p>Map open ports and services. Attack prep. Defense: IDS, firewall, honeypots.</p></div>
+      <div class="attack-card"><div class="ac-icon">🕵️</div><h4>MITM</h4><p>Intercept network traffic. Requires position between victim and target. Defense: HTTPS, HSTS, cert pinning.</p></div>
+      <div class="attack-card"><div class="ac-icon">☠️</div><h4>ARP Spoofing</h4><p>Poison ARP cache to redirect LAN traffic through attacker. Defense: DAI on switches.</p></div>
+      <div class="attack-card"><div class="ac-icon">🧪</div><h4>DNS Poisoning</h4><p>Inject false DNS records to redirect traffic. Defense: DNSSEC, DoH.</p></div>
+      <div class="attack-card"><div class="ac-icon">💥</div><h4>DDoS</h4><p>Overwhelm target with traffic to deny service. Defense: CDN, rate limiting, BGP blackhole.</p></div>
+      <div class="attack-card"><div class="ac-icon">📡</div><h4>Packet Sniffing</h4><p>Capture network traffic passively. Effective on unencrypted protocols. Defense: Encryption everywhere.</p></div>
+    </div>
+
+    <div class="yt-section">
+      <div class="yt-header"><div class="yt-badge">▶</div>Recommended Videos — Module 16</div>
+      <div class="yt-grid">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=3Kq1MIfTWCE" target="_blank"><div class="yt-channel">David Bombal</div><div class="yt-title">ARP Spoofing Attack — Full Demo</div><div class="yt-desc">Complete ARP spoofing MITM attack demonstration in lab environment</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=rmFX1V49K8U" target="_blank"><div class="yt-channel">David Bombal</div><div class="yt-title">SYN Flood DDoS Attack Demo</div><div class="yt-desc">Real SYN flood attack and how SYN cookies defend against it</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=g2fT-g9PX9o" target="_blank"><div class="yt-channel">NetworkChuck</div><div class="yt-title">Nmap — Complete Hacker's Guide</div><div class="yt-desc">Everything about port scanning with Nmap — from basic to advanced</div></a>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=ll9v4vJ8hSI" target="_blank"><div class="yt-channel">The Cyber Mentor</div><div class="yt-title">Practical Ethical Hacking — Network Attacks</div><div class="yt-desc">Real network attacks in lab environment — MITM, sniffing, and more</div></a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end page-networking -->
+
+
+
+
+</main>
+</div><!-- end app-shell -->
+
+<!-- ======================================================
+     JAVASCRIPT
+====================================================== -->
+<script>
+// ===== PAGE SWITCHING =====
+function switchPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.header-nav a').forEach(a => a.classList.remove('active'));
+  const el = document.getElementById('page-' + page);
+  if (el) el.classList.add('active');
+  const nav = document.getElementById('nav-' + page);
+  if (nav) nav.classList.add('active');
+
+  // Reset sidebar active states
+  document.querySelectorAll('.sb-link').forEach(l => l.classList.remove('active'));
+}
+
+// ===== MODULE SWITCHING =====
+function switchMod(modId) {
+  // Hide all modules in all pages
+  document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+  document.querySelectorAll('.mod-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.sb-link').forEach(l => l.classList.remove('active'));
+
+  // Show target module
+  const mod = document.getElementById('mod-' + modId);
+  if (mod) mod.classList.add('active');
+
+  // Activate correct tab
+  const tabs = document.querySelectorAll('.mod-tab');
+  const idx = parseInt(modId.replace('m','')) - 1;
+  if (tabs[idx]) tabs[idx].classList.add('active');
+
+  // Activate sidebar link
+  const sbEl = document.getElementById('sb-' + modId);
+  if (sbEl) sbEl.classList.add('active');
+
+  // Scroll to top of content
+  document.querySelector('.content').scrollTop = 0;
+  window.scrollTo(0, 0);
+}
+
+
+// ===== TOAST NOTIFICATION =====
+function showToast(msg) {
+  const existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = msg;
+  toast.style.cssText = `
+    position:fixed;bottom:2rem;right:2rem;z-index:9999;
+    background:#00e5ff;color:#000;font-weight:700;
+    padding:.7rem 1.4rem;border-radius:8px;font-family:'Space Mono',monospace;
+    font-size:.78rem;box-shadow:0 8px 24px rgba(0,229,255,.3);
+    animation:slideIn .3s ease;
+  `;
+  document.head.insertAdjacentHTML('beforeend',`<style>@keyframes slideIn{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}</style>`);
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => {
+  switchPage('home');
+});
+</script>
+</body>
+</html>
